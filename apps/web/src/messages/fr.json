@@ -1,0 +1,102 @@
+{
+  "home": {
+    "headline": "Les talents marocains. À portée de clic.",
+    "subheadline": "La plateforme qui connecte les jeunes talents du Maroc avec les entreprises qui ont besoin d'eux.",
+    "cta_talent": "Je suis un talent",
+    "cta_business": "Je recrute"
+  },
+  "nav": {
+    "gigs": "Offres",
+    "talents": "Talents",
+    "login": "Connexion",
+    "signup": "S'inscrire",
+    "dashboard": "Tableau de bord",
+    "logout": "Se déconnecter"
+  },
+  "gigs": {
+    "title": "Offres disponibles",
+    "browse_description": "Trouvez le projet qui correspond à vos compétences."
+  },
+  "auth": {
+    "login_title": "Connexion",
+    "signup_title": "Créer un compte",
+    "email": "Email",
+    "password": "Mot de passe",
+    "name": "Nom complet",
+    "role_talent": "Je suis un talent",
+    "role_business": "Je suis une entreprise",
+    "submit_login": "Se connecter",
+    "submit_signup": "Créer mon compte",
+    "or": "ou",
+    "google": "Continuer avec Google",
+    "already_member": "Déjà membre ?",
+    "not_member": "Pas encore membre ?"
+  },
+  "profile": {
+    "talent": {
+      "title": "Mon profil",
+      "edit_title": "Modifier mon profil",
+      "bio": "Bio",
+      "bio_placeholder": "Décrivez votre parcours, vos spécialités et ce qui vous rend unique.",
+      "skills": "Compétences",
+      "skill_name": "Compétence",
+      "skill_level": "Niveau",
+      "add_skill": "Ajouter une compétence",
+      "portfolio_urls": "Liens portfolio",
+      "portfolio_placeholder": "https://...",
+      "add_portfolio": "Ajouter un lien",
+      "languages": "Langues",
+      "hourly_rate": "Tarif horaire (MAD)",
+      "availability": "Disponibilité",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "saved": "Profil enregistré !",
+      "public_profile": "Voir mon profil public",
+      "completed_gigs": "missions réalisées",
+      "reviews": "avis",
+      "response_rate": "taux de réponse",
+      "on_time_rate": "livraison dans les délais"
+    },
+    "business": {
+      "title": "Mon entreprise",
+      "edit_title": "Modifier mon entreprise",
+      "company_name": "Nom de l'entreprise",
+      "sector": "Secteur d'activité",
+      "size": "Taille de l'entreprise",
+      "ice": "Numéro ICE (optionnel)",
+      "website": "Site web",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "saved": "Profil enregistré !"
+    },
+    "skill_levels": {
+      "junior": "Junior",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé",
+      "expert": "Expert"
+    },
+    "availability": {
+      "available": "Disponible",
+      "in_project": "En mission",
+      "unavailable": "Non disponible"
+    },
+    "verification": {
+      "unverified": "Non vérifié",
+      "pending": "En attente de vérification",
+      "verified": "Vérifié",
+      "top_talent": "Top Talent"
+    },
+    "business_size": {
+      "1": "Auto-entrepreneur",
+      "2-10": "2–10 employés",
+      "11-50": "11–50 employés",
+      "50+": "50+ employés"
+    }
+  },
+  "errors": {
+    "unauthorized": "Accès non autorisé",
+    "forbidden": "Accès interdit",
+    "not_found": "Page introuvable",
+    "server_error": "Erreur serveur. Réessayez."
+  }
+}

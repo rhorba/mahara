@@ -1,0 +1,43 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Next.js
+.next
+out
+
+# Build
+dist
+build
+*.tsbuildinfo
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Drizzle
+drizzle/meta
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+*.stackdump
+
+# Editor
+.idea
+.vscode
+*.swp
+
+# Turbo
+.turbo
+
+# Test
+coverage
+playwright-report
+test-results

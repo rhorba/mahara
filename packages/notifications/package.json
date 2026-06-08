@@ -1,0 +1,28 @@
+{
+  "name": "@mahara/notifications",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./email": "./src/email.ts",
+    "./inapp": "./src/inapp.ts"
+  },
+  "scripts": {
+    "worker": "tsx src/worker.ts",
+    "lint": "biome check ./src",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@mahara/core": "workspace:*",
+    "@mahara/db": "workspace:*",
+    "pg-boss": "^10.1.6",
+    "resend": "^4.0.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  /* Mahara design tokens — §9 */
+  --color-mahara-green: #1b4332;
+  --color-mahara-green-light: #2d6a4f;
+  --color-mahara-green-pale: #d8f3dc;
+  --color-mahara-gold: #d4a017;
+  --color-mahara-gold-light: #e9c46a;
+  --color-mahara-gold-pale: #fff3cd;
+
+  /* Typography */
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-arabic: "Noto Kufi Arabic", system-ui, sans-serif;
+}
+
+/* RTL font stack */
+[dir="rtl"] {
+  font-family: var(--font-arabic), var(--font-sans);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus visible */
+*:focus-visible {
+  outline: 2px solid var(--color-mahara-gold);
+  outline-offset: 2px;
+}

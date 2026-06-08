@@ -1,0 +1,33 @@
+{
+  "name": "mahara",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "lint": "pnpm --filter web lint && pnpm --filter @mahara/* lint",
+    "test": "pnpm --filter web test && pnpm --filter @mahara/* test",
+    "db:generate": "pnpm --filter @mahara/db db:generate",
+    "db:migrate": "pnpm --filter @mahara/db db:migrate",
+    "db:seed": "pnpm --filter @mahara/db db:seed",
+    "db:studio": "pnpm --filter @mahara/db db:studio",
+    "worker": "pnpm --filter @mahara/notifications worker"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=10"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "argon2",
+      "@biomejs/biome",
+      "esbuild",
+      "sharp",
+      "@node-rs/argon2"
+    ]
+  }
+}

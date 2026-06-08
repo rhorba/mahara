@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1780551047413,
+      "tag": "0000_youthful_giant_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1749340800000,
+      "tag": "0001_sprint1_schema",
+      "breakpoints": true
+    }
+  ]
+}

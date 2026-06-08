@@ -1,0 +1,102 @@
+{
+  "home": {
+    "headline": "Moroccan talent. One click away.",
+    "subheadline": "The platform connecting Morocco's skilled youth with businesses that need them.",
+    "cta_talent": "I'm a talent",
+    "cta_business": "I'm hiring"
+  },
+  "nav": {
+    "gigs": "Gigs",
+    "talents": "Talents",
+    "login": "Log in",
+    "signup": "Sign up",
+    "dashboard": "Dashboard",
+    "logout": "Log out"
+  },
+  "gigs": {
+    "title": "Available gigs",
+    "browse_description": "Find the project that matches your skills."
+  },
+  "auth": {
+    "login_title": "Log in",
+    "signup_title": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "name": "Full name",
+    "role_talent": "I'm a talent",
+    "role_business": "I'm a business",
+    "submit_login": "Log in",
+    "submit_signup": "Create my account",
+    "or": "or",
+    "google": "Continue with Google",
+    "already_member": "Already a member?",
+    "not_member": "Not a member yet?"
+  },
+  "profile": {
+    "talent": {
+      "title": "My profile",
+      "edit_title": "Edit my profile",
+      "bio": "Bio",
+      "bio_placeholder": "Describe your background, specialties, and what makes you unique.",
+      "skills": "Skills",
+      "skill_name": "Skill",
+      "skill_level": "Level",
+      "add_skill": "Add skill",
+      "portfolio_urls": "Portfolio links",
+      "portfolio_placeholder": "https://...",
+      "add_portfolio": "Add link",
+      "languages": "Languages",
+      "hourly_rate": "Hourly rate (MAD)",
+      "availability": "Availability",
+      "save": "Save",
+      "saving": "Saving...",
+      "saved": "Profile saved!",
+      "public_profile": "View my public profile",
+      "completed_gigs": "gigs completed",
+      "reviews": "reviews",
+      "response_rate": "response rate",
+      "on_time_rate": "on-time delivery"
+    },
+    "business": {
+      "title": "My company",
+      "edit_title": "Edit company profile",
+      "company_name": "Company name",
+      "sector": "Industry",
+      "size": "Company size",
+      "ice": "ICE number (optional)",
+      "website": "Website",
+      "save": "Save",
+      "saving": "Saving...",
+      "saved": "Profile saved!"
+    },
+    "skill_levels": {
+      "junior": "Junior",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "expert": "Expert"
+    },
+    "availability": {
+      "available": "Available",
+      "in_project": "In project",
+      "unavailable": "Unavailable"
+    },
+    "verification": {
+      "unverified": "Unverified",
+      "pending": "Pending verification",
+      "verified": "Verified",
+      "top_talent": "Top Talent"
+    },
+    "business_size": {
+      "1": "Solo",
+      "2-10": "2–10 employees",
+      "11-50": "11–50 employees",
+      "50+": "50+ employees"
+    }
+  },
+  "errors": {
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "not_found": "Page not found",
+    "server_error": "Server error. Please try again."
+  }
+}

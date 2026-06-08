@@ -1,0 +1,102 @@
+{
+  "home": {
+    "headline": "المواهب المغربية. بنقرة واحدة.",
+    "subheadline": "المنصة التي تربط الشباب الموهوب بالمغرب مع الشركات التي تحتاجهم.",
+    "cta_talent": "أنا موهبة",
+    "cta_business": "أبحث عن موهبة"
+  },
+  "nav": {
+    "gigs": "العروض",
+    "talents": "المواهب",
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "dashboard": "لوحة التحكم",
+    "logout": "تسجيل الخروج"
+  },
+  "gigs": {
+    "title": "العروض المتاحة",
+    "browse_description": "ابحث عن المشروع الذي يناسب مهاراتك."
+  },
+  "auth": {
+    "login_title": "تسجيل الدخول",
+    "signup_title": "إنشاء حساب",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "name": "الاسم الكامل",
+    "role_talent": "أنا موهبة",
+    "role_business": "أنا شركة",
+    "submit_login": "دخول",
+    "submit_signup": "إنشاء حسابي",
+    "or": "أو",
+    "google": "المتابعة مع Google",
+    "already_member": "لديك حساب بالفعل؟",
+    "not_member": "ليس لديك حساب بعد؟"
+  },
+  "profile": {
+    "talent": {
+      "title": "ملفي الشخصي",
+      "edit_title": "تعديل ملفي الشخصي",
+      "bio": "نبذة عني",
+      "bio_placeholder": "صف مسارك المهني وتخصصاتك وما يميزك.",
+      "skills": "المهارات",
+      "skill_name": "المهارة",
+      "skill_level": "المستوى",
+      "add_skill": "إضافة مهارة",
+      "portfolio_urls": "روابط المحفظة",
+      "portfolio_placeholder": "https://...",
+      "add_portfolio": "إضافة رابط",
+      "languages": "اللغات",
+      "hourly_rate": "الأجر بالساعة (درهم)",
+      "availability": "التوفر",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ...",
+      "saved": "تم حفظ الملف!",
+      "public_profile": "عرض ملفي العام",
+      "completed_gigs": "مهمة منجزة",
+      "reviews": "تقييم",
+      "response_rate": "معدل الرد",
+      "on_time_rate": "الالتزام بالمواعيد"
+    },
+    "business": {
+      "title": "شركتي",
+      "edit_title": "تعديل ملف الشركة",
+      "company_name": "اسم الشركة",
+      "sector": "قطاع النشاط",
+      "size": "حجم الشركة",
+      "ice": "رقم ICE (اختياري)",
+      "website": "الموقع الإلكتروني",
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ...",
+      "saved": "تم حفظ الملف!"
+    },
+    "skill_levels": {
+      "junior": "مبتدئ",
+      "intermediate": "متوسط",
+      "advanced": "متقدم",
+      "expert": "خبير"
+    },
+    "availability": {
+      "available": "متاح",
+      "in_project": "في مهمة",
+      "unavailable": "غير متاح"
+    },
+    "verification": {
+      "unverified": "غير موثق",
+      "pending": "قيد التحقق",
+      "verified": "موثق",
+      "top_talent": "موهبة مميزة"
+    },
+    "business_size": {
+      "1": "مقاول ذاتي",
+      "2-10": "2–10 موظفين",
+      "11-50": "11–50 موظفاً",
+      "50+": "أكثر من 50 موظفاً"
+    }
+  },
+  "errors": {
+    "unauthorized": "وصول غير مصرح به",
+    "forbidden": "وصول محظور",
+    "not_found": "الصفحة غير موجودة",
+    "server_error": "خطأ في الخادم. حاول مرة أخرى."
+  }
+}
