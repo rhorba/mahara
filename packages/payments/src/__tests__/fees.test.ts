@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
 import { money } from "@mahara/core/money";
+import { describe, expect, it } from "vitest";
 import { computeFees } from "../fees.js";
 
 describe("computeFees()", () => {

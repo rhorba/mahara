@@ -52,11 +52,7 @@ export type GigSummary = {
   category: string;
 };
 
-export async function sendGigAlertDigest(
-  to: string,
-  name: string,
-  matchedGigs: GigSummary[],
-) {
+export async function sendGigAlertDigest(to: string, name: string, matchedGigs: GigSummary[]) {
   if (matchedGigs.length === 0) return;
   const resend = getResend();
 

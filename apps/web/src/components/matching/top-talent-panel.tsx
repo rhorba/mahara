@@ -10,7 +10,7 @@ interface Props {
   locale: string;
 }
 
-export async function TopTalentPanel({ talent, locale }: Props) {
+export async function TopTalentPanel({ talent, locale: _locale }: Props) {
   const t = await getTranslations("gigs");
   const tVerif: Record<string, string> = {
     top_talent: "bg-mahara-gold/10 text-mahara-gold",

@@ -53,9 +53,7 @@ export function NotificationBell({ initialNotifications }: Props) {
   function handleMarkRead(id: string) {
     startTransition(async () => {
       await markNotificationRead({ notificationId: id });
-      setNotifications((prev) =>
-        prev.map((n) => (n.id === id ? { ...n, readAt: new Date() } : n)),
-      );
+      setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, readAt: new Date() } : n)));
     });
   }
 

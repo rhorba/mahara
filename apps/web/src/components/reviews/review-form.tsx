@@ -13,7 +13,7 @@ type Props = {
 
 const STAR_LABELS = ["", "stars.1", "stars.2", "stars.3", "stars.4", "stars.5"] as const;
 
-export function ReviewForm({ gigId, gigTitle, onSuccess }: Props) {
+export function ReviewForm({ gigId, gigTitle: _gigTitle, onSuccess }: Props) {
   const t = useTranslations("reviews");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -77,9 +77,7 @@ export function ReviewForm({ gigId, gigTitle, onSuccess }: Props) {
           ))}
         </div>
         {(hover || rating) > 0 && (
-          <p className="text-xs text-gray-400 mt-0.5">
-            {t(STAR_LABELS[hover || rating])}
-          </p>
+          <p className="text-xs text-gray-400 mt-0.5">{t(STAR_LABELS[hover || rating])}</p>
         )}
       </div>
 

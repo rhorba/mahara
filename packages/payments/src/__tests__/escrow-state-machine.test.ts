@@ -229,8 +229,6 @@ describe("EscrowStateMachine — not-found guard", () => {
     };
     // biome-ignore lint/suspicious/noExplicitAny: test-only mock
     const tx: any = { select: vi.fn().mockReturnValue(selectChain) };
-    await expect(machine.fund("nonexistent", "actor-1", tx)).rejects.toThrow(
-      "Escrow not found",
-    );
+    await expect(machine.fund("nonexistent", "actor-1", tx)).rejects.toThrow("Escrow not found");
   });
 });

@@ -10,14 +10,13 @@ export async function NavBar() {
   const [t, session] = await Promise.all([getTranslations("nav"), auth()]);
 
   // Load recent notifications for authenticated users (max 50, newest first)
-  const userNotifications =
-    session?.user?.id
-      ? await db.query.notifications.findMany({
-          where: eq(notifications.userId, session.user.id),
-          orderBy: (n, { desc }) => [desc(n.createdAt)],
-          limit: 50,
-        })
-      : [];
+  const userNotifications = session?.user?.id
+    ? await db.query.notifications.findMany({
+        where: eq(notifications.userId, session.user.id),
+        orderBy: (n, { desc }) => [desc(n.createdAt)],
+        limit: 50,
+      })
+    : [];
   const role = session?.user?.role;
 
   return (

@@ -145,9 +145,8 @@ function mockSession(userId: string, role: "talent" | "business" | "admin"): Ses
 
 beforeEach(() => {
   vi.mocked(auth as () => Promise<Session | null>).mockResolvedValue(null);
-  vi.mocked(withUserContext).mockImplementation(
-    async (_userId, _role, fn) =>
-      fn((globalThis as Record<string, unknown>).__mockPaymentsTx__ as Parameters<typeof fn>[0]),
+  vi.mocked(withUserContext).mockImplementation(async (_userId, _role, fn) =>
+    fn((globalThis as Record<string, unknown>).__mockPaymentsTx__ as Parameters<typeof fn>[0]),
   );
   dbState.escrowResult = null;
   dbState.gigResult = null;

@@ -1,9 +1,9 @@
 import type { SkillEntry } from "@mahara/core";
 import { db, escrows, gigs, notifications, talentProfiles, users } from "@mahara/db";
-import { sendGigAlertDigest } from "./email.js";
-import type { GigSummary } from "./email.js";
 import { and, eq, gte, inArray, isNotNull, lt, ne } from "drizzle-orm";
 import PgBoss from "pg-boss";
+import { sendGigAlertDigest } from "./email.js";
+import type { GigSummary } from "./email.js";
 
 if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is required for the worker");
@@ -63,7 +63,7 @@ async function gigAlertsSweep() {
 async function escrowSweep() {
   const now = new Date();
   const h24ago = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-  const h72ago = new Date(now.getTime() - 72 * 60 * 60 * 1000);
+  const _h72ago = new Date(now.getTime() - 72 * 60 * 60 * 1000);
   let notifCount = 0;
 
   // 1. Pending escrows not funded after 24h — remind business to pay
@@ -129,7 +129,9 @@ async function emailDigestSweep() {
     const matched: GigSummary[] = openGigs
       .filter((g) => {
         const gigSkills = g.skills.map((s) => s.toLowerCase());
-        return gigSkills.some((gs) => talentSkills.some((ts) => ts.includes(gs) || gs.includes(ts)));
+        return gigSkills.some((gs) =>
+          talentSkills.some((ts) => ts.includes(gs) || gs.includes(ts)),
+        );
       })
       .map((g) => ({ id: g.id, title: g.title, budget: g.budget, category: g.category }));
 

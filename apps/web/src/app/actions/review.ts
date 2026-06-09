@@ -94,7 +94,7 @@ export const createReview = withRole(
 
 type Db = typeof db;
 
-async function updateTalentStats(tx: Db, talentUserId: string, gigId: string) {
+async function updateTalentStats(tx: Db, talentUserId: string, _gigId: string) {
   // Load current talent profile
   const profile = await tx.query.talentProfiles.findFirst({
     where: eq(talentProfiles.userId, talentUserId),

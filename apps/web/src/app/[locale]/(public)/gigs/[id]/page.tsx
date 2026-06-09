@@ -137,7 +137,9 @@ export default async function PublicGigDetailPage({ params }: Props) {
           {canReview && (
             <section className="rounded-xl border border-gray-100 bg-white p-5 shadow-sm">
               {hasReviewed ? (
-                <p className="text-sm text-gray-400">{(await getTranslations("reviews"))("already_reviewed")}</p>
+                <p className="text-sm text-gray-400">
+                  {(await getTranslations("reviews"))("already_reviewed")}
+                </p>
               ) : (
                 <ReviewForm gigId={gig.id} gigTitle={gig.title} />
               )}

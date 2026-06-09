@@ -85,7 +85,9 @@ export function VerificationRequestPanel({ skills, existingRequests }: Props) {
                     </p>
                   )}
                 </div>
-                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_PILL[req.status] ?? ""}`}>
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_PILL[req.status] ?? ""}`}
+                >
                   {t(`status.${req.status}`)}
                 </span>
               </div>
@@ -135,9 +137,7 @@ export function VerificationRequestPanel({ skills, existingRequests }: Props) {
             </div>
 
             {error && <p className="text-xs text-red-600">{error}</p>}
-            {success && (
-              <p className="text-xs text-mahara-green font-medium">{t("requested")} ✓</p>
-            )}
+            {success && <p className="text-xs text-mahara-green font-medium">{t("requested")} ✓</p>}
 
             <button
               type="submit"
