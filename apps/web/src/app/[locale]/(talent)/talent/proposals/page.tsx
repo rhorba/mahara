@@ -49,9 +49,7 @@ export default async function TalentProposalsPage() {
 
   return (
     <main className="container mx-auto px-4 py-8 max-w-3xl">
-      <h1 className="text-2xl font-display font-bold text-mahara-green mb-6">
-        {tProp("title")}
-      </h1>
+      <h1 className="text-2xl font-display font-bold text-mahara-green mb-6">{tProp("title")}</h1>
 
       {myProposals.length === 0 ? (
         <div className="text-center py-16 text-gray-400">
@@ -84,7 +82,9 @@ export default async function TalentProposalsPage() {
                             <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-green-100 text-green-700">
                               {tPropStatus("accepted")}
                             </span>
-                            {gig && <span className="text-xs text-gray-400">{tCat(gig.category)}</span>}
+                            {gig && (
+                              <span className="text-xs text-gray-400">{tCat(gig.category)}</span>
+                            )}
                           </div>
                           <Link
                             href={`/gigs/${gig?.id}`}
@@ -134,11 +134,13 @@ export default async function TalentProposalsPage() {
                         <div className="flex-1 min-w-0">
                           <div className="flex flex-wrap items-center gap-1.5 mb-1">
                             <span
-                              className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_PILL["pending"]}`}
+                              className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_PILL.pending}`}
                             >
                               {tPropStatus("pending")}
                             </span>
-                            {gig && <span className="text-xs text-gray-400">{tCat(gig.category)}</span>}
+                            {gig && (
+                              <span className="text-xs text-gray-400">{tCat(gig.category)}</span>
+                            )}
                           </div>
                           <Link
                             href={`/gigs/${gig?.id}`}
@@ -205,7 +207,9 @@ export default async function TalentProposalsPage() {
                             >
                               {tPropStatus(proposal.status)}
                             </span>
-                            {gig && <span className="text-xs text-gray-400">{tCat(gig.category)}</span>}
+                            {gig && (
+                              <span className="text-xs text-gray-400">{tCat(gig.category)}</span>
+                            )}
                           </div>
                           <p className="font-semibold text-gray-700">{gig?.title ?? "—"}</p>
                           <p className="text-xs text-gray-400 mt-0.5">

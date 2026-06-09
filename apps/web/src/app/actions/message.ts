@@ -109,26 +109,23 @@ export const markThreadRead = withRole(
  * List all threads for the current user (talent or business).
  * Returns threads ordered by lastMessageAt desc, with latest message preview.
  */
-export const getMyThreads = withRoleNoInput(
-  ["talent", "business"],
-  async ({ userId, role }) => {
-    // Use db directly — RLS on messageThreads already scopes to current user
-    // (withUserContext is set by withRoleNoInput via withUserContext internally)
-    return db.query.messageThreads.findMany({
-      where:
-        role === "talent"
-          ? eq(messageThreads.talentId, userId)
-          : eq(messageThreads.businessId, userId),
-      with: {
-        gig: true,
-        talent: true,
-        business: true,
-        messages: {
-          orderBy: [desc(messages.createdAt)],
-          limit: 1,
-        },
+export const getMyThreads = withRoleNoInput(["talent", "business"], async ({ userId, role }) => {
+  // Use db directly — RLS on messageThreads already scopes to current user
+  // (withUserContext is set by withRoleNoInput via withUserContext internally)
+  return db.query.messageThreads.findMany({
+    where:
+      role === "talent"
+        ? eq(messageThreads.talentId, userId)
+        : eq(messageThreads.businessId, userId),
+    with: {
+      gig: true,
+      talent: true,
+      business: true,
+      messages: {
+        orderBy: [desc(messages.createdAt)],
+        limit: 1,
       },
-      orderBy: [desc(messageThreads.lastMessageAt)],
-    });
-  },
-);
+    },
+    orderBy: [desc(messageThreads.lastMessageAt)],
+  });
+});

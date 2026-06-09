@@ -87,4 +87,6 @@ export const auditActionEnum = pgEnum("audit_action", [
   "approve",
   "release",
   "dispute",
+  "fund",
+  "refund",
 ]);

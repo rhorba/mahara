@@ -158,7 +158,7 @@ export default async function GigBrowsePage({ params, searchParams }: Props) {
               {/* Header row */}
               <div className="flex items-start justify-between gap-2 mb-3">
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_COLORS["open"]}`}
+                  className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_COLORS.open}`}
                 >
                   {tCat(gig.category)}
                 </span>
@@ -203,9 +203,7 @@ export default async function GigBrowsePage({ params, searchParams }: Props) {
                 <span className="text-mahara-green font-bold text-sm">
                   {formatMoney(gig.budget as Money, locale)}
                 </span>
-                {gig.duration && (
-                  <span className="text-xs text-gray-400">{gig.duration}</span>
-                )}
+                {gig.duration && <span className="text-xs text-gray-400">{gig.duration}</span>}
               </div>
             </Link>
           ))}

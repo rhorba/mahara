@@ -214,6 +214,118 @@
       "50+": "أكثر من 50 موظفاً"
     }
   },
+  "payments": {
+    "escrow_banner_title": "الضمان",
+    "status": {
+      "pending": "في انتظار الدفع",
+      "funded": "الأموال مؤمّنة",
+      "released": "تم صرف الدفعة",
+      "refunded": "تم الاسترداد",
+      "disputed": "نزاع جارٍ"
+    },
+    "pay_now": "الدفع الآن",
+    "paying": "جارٍ التحويل...",
+    "mark_complete": "تحديد كمكتملة",
+    "marking_complete": "جارٍ...",
+    "release_payment": "صرف الدفعة",
+    "releasing": "جارٍ الصرف...",
+    "refund": "استرداد",
+    "refunding": "جارٍ الاسترداد...",
+    "open_dispute": "فتح نزاع",
+    "opening_dispute": "جارٍ الفتح...",
+    "pending_msg": "أتمّ الدفع لبدء المهمة. ستكون الأموال مؤمّنة على منصة مهارة.",
+    "funded_in_progress_msg": "الأموال مؤمّنة. حدّد المهمة كمكتملة عند تسليم العمل.",
+    "funded_completed_msg": "اكتملت المهمة! اصرف الدفعة بعد تقديم التقييمات.",
+    "released_msg": "تم صرف الدفعة بنجاح. شكراً لاستخدام مهارة.",
+    "refunded_msg": "تم استرداد الميزانية.",
+    "disputed_msg": "نزاع جارٍ. سيتولى فريق مهارة المراجعة والحل خلال 72 ساعة.",
+    "fee_breakdown": "تفاصيل الرسوم",
+    "budget": "ميزانية المهمة",
+    "platform_fee_business": "رسوم مهارة (منك)",
+    "platform_fee_talent": "رسوم مهارة (الموهبة)",
+    "total_to_pay": "المجموع للدفع",
+    "talent_receives": "تتلقى الموهبة",
+    "earnings_title": "أرباحي",
+    "earnings_total": "إجمالي الأرباح",
+    "earnings_pending": "في انتظار الدفع",
+    "earnings_history": "سجل المدفوعات",
+    "earnings_empty": "لا توجد مدفوعات حتى الآن.",
+    "earnings_upcoming": "المدفوعات القادمة",
+    "payment_confirmed": "تم تأكيد الدفع! الأموال مؤمّنة الآن.",
+    "payment_failed": "فشل الدفع. حاول مرة أخرى.",
+    "dispute_cta": "مشكلة مع المهمة؟"
+  },
+  "reviews": {
+    "title": "التقييمات",
+    "leave_review": "اترك تقييماً",
+    "rating": "التقييم (1–5)",
+    "comment": "تعليق (اختياري)",
+    "comment_placeholder": "شارك تجربتك مع هذا الشخص...",
+    "submit": "إرسال التقييم",
+    "submitting": "جارٍ الإرسال...",
+    "submitted": "تم إرسال التقييم!",
+    "already_reviewed": "لقد قدمت تقييماً لهذه المهمة بالفعل.",
+    "reviews_count": "تقييم",
+    "avg_rating": "متوسط التقييم",
+    "no_reviews": "لا توجد تقييمات حتى الآن.",
+    "review_prompt": "اكتملت هذه المهمة — شارك تجربتك.",
+    "review_timeout_note": "يمكن إصدار الدفعة دون تقييم بعد 72 ساعة.",
+    "stars": {
+      "1": "ضعيف",
+      "2": "مقبول",
+      "3": "جيد",
+      "4": "جيد جداً",
+      "5": "ممتاز"
+    }
+  },
+  "trust": {
+    "badge": {
+      "unverified": "غير موثق",
+      "pending": "التوثيق جارٍ",
+      "verified": "موثق",
+      "top_talent": "موهبة مميزة"
+    },
+    "verification_title": "توثيق المهارات",
+    "request_verification": "طلب توثيق",
+    "requesting": "جارٍ الإرسال...",
+    "requested": "تم إرسال الطلب!",
+    "select_skill": "المهارة المراد توثيقها",
+    "select_method": "طريقة التوثيق",
+    "method": {
+      "portfolio": "محفظة الأعمال",
+      "test": "اختبار المهارة",
+      "admin_review": "مراجعة فريق مهارة"
+    },
+    "status": {
+      "pending": "قيد المراجعة",
+      "approved": "مقبول",
+      "rejected": "مرفوض"
+    },
+    "admin_note": "ملاحظة المشرف",
+    "my_verifications": "طلبات التوثيق الخاصة بي",
+    "no_verifications": "لا توجد طلبات توثيق.",
+    "admin_queue": "قائمة التوثيق",
+    "approve": "قبول",
+    "reject": "رفض",
+    "approving": "جارٍ القبول...",
+    "rejecting": "جارٍ الرفض..."
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "mark_all_read": "تحديد الكل كمقروء",
+    "empty": "لا توجد إشعارات.",
+    "unread_count": "غير مقروء",
+    "type": {
+      "gig_match": "مهمة مطابقة",
+      "proposal_accepted": "طلب مقبول",
+      "proposal_rejected": "طلب مرفوض",
+      "new_message": "رسالة جديدة",
+      "payment_released": "تم استلام الدفعة",
+      "review_requested": "طلب تقييم",
+      "verification_approved": "تم توثيق المهارة",
+      "gig_completed": "اكتملت المهمة"
+    }
+  },
   "errors": {
     "unauthorized": "وصول غير مصرح به",
     "forbidden": "وصول محظور",

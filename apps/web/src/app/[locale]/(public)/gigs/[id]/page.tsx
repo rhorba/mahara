@@ -1,12 +1,13 @@
 import { ApplyButton } from "@/components/gigs/apply-button";
 import { TopTalentPanel } from "@/components/matching/top-talent-panel";
+import { ReviewForm } from "@/components/reviews/review-form";
 import { Link } from "@/i18n/navigation";
 import { auth } from "@/lib/auth";
 import { getPublicGigDetail } from "@/lib/gig-queries";
 import type { Money } from "@mahara/core";
 import { formatMoney } from "@mahara/core";
+import { db, escrows, proposals, reviews, talentProfiles } from "@mahara/db";
 import { getTopTalentForGig } from "@mahara/matching";
-import { db, proposals, talentProfiles } from "@mahara/db";
 import { and, eq } from "drizzle-orm";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
@@ -39,9 +40,7 @@ export default async function PublicGigDetailPage({ params }: Props) {
   const role = session?.user?.role;
 
   const topTalent =
-    role === "business" || role === "admin"
-      ? await getTopTalentForGig(gig.id, 5)
-      : [];
+    role === "business" || role === "admin" ? await getTopTalentForGig(gig.id, 5) : [];
 
   // Check if talent has already applied
   let hasApplied = false;
@@ -51,12 +50,25 @@ export default async function PublicGigDetailPage({ params }: Props) {
     });
     if (talentProfile) {
       const existing = await db.query.proposals.findFirst({
-        where: and(
-          eq(proposals.gigId, gig.id),
-          eq(proposals.talentId, talentProfile.id),
-        ),
+        where: and(eq(proposals.gigId, gig.id), eq(proposals.talentId, talentProfile.id)),
       });
       hasApplied = !!existing;
+    }
+  }
+
+  // Review section: show for completed gigs where user is a party
+  let canReview = false;
+  let hasReviewed = false;
+  if (userId && gig.status === "completed" && (role === "talent" || role === "business")) {
+    const escrow = await db.query.escrows.findFirst({ where: eq(escrows.gigId, gig.id) });
+    if (escrow) {
+      canReview = escrow.businessId === userId || escrow.talentId === userId;
+      if (canReview) {
+        const existing = await db.query.reviews.findFirst({
+          where: and(eq(reviews.gigId, gig.id), eq(reviews.reviewerId, userId)),
+        });
+        hasReviewed = !!existing;
+      }
     }
   }
 
@@ -118,6 +130,17 @@ export default async function PublicGigDetailPage({ params }: Props) {
                   </span>
                 ))}
               </div>
+            </section>
+          )}
+
+          {/* Review form (completed gig, authenticated party, not yet reviewed) */}
+          {canReview && (
+            <section className="rounded-xl border border-gray-100 bg-white p-5 shadow-sm">
+              {hasReviewed ? (
+                <p className="text-sm text-gray-400">{(await getTranslations("reviews"))("already_reviewed")}</p>
+              ) : (
+                <ReviewForm gigId={gig.id} gigTitle={gig.title} />
+              )}
             </section>
           )}
 
@@ -193,9 +216,7 @@ export default async function PublicGigDetailPage({ params }: Props) {
               hasApplied={hasApplied}
             />
 
-            <p className="text-xs text-gray-400 text-center leading-relaxed">
-              {t("escrow_note")}
-            </p>
+            <p className="text-xs text-gray-400 text-center leading-relaxed">{t("escrow_note")}</p>
           </div>
         </aside>
       </div>

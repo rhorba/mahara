@@ -77,13 +77,7 @@ vi.mock("@mahara/db", () => {
   };
 });
 
-import {
-  closeGig,
-  createGig,
-  getOwnGigs,
-  publishGig,
-  updateGig,
-} from "@/app/actions/gig";
+import { closeGig, createGig, getOwnGigs, publishGig, updateGig } from "@/app/actions/gig";
 import {
   acceptProposal,
   applyToGig,

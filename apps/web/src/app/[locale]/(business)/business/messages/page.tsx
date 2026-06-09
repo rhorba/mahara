@@ -30,9 +30,7 @@ export default async function BusinessMessagesPage() {
       <h1 className="text-2xl font-display font-bold text-mahara-green mb-6">{t("title")}</h1>
 
       {threads.length === 0 ? (
-        <div className="text-center py-16 text-sm text-gray-400">
-          {t("no_threads")}
-        </div>
+        <div className="text-center py-16 text-sm text-gray-400">{t("no_threads")}</div>
       ) : (
         <div className="space-y-2">
           {threads.map((thread) => {

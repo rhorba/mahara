@@ -1,9 +1,9 @@
 "use client";
 
 import { sendMessage } from "@/app/actions/message";
-import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import { useTransition, useRef } from "react";
+import { useTranslations } from "next-intl";
+import { useRef, useTransition } from "react";
 
 interface Props {
   threadId: string;

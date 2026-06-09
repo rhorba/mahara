@@ -1,10 +1,23 @@
+import { NotificationBell } from "@/components/notifications/notification-bell";
 import { Link } from "@/i18n/navigation";
 import { auth } from "@/lib/auth";
+import { db, notifications } from "@mahara/db";
+import { eq } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
 import { LogoutButton } from "./logout-button";
 
 export async function NavBar() {
   const [t, session] = await Promise.all([getTranslations("nav"), auth()]);
+
+  // Load recent notifications for authenticated users (max 50, newest first)
+  const userNotifications =
+    session?.user?.id
+      ? await db.query.notifications.findMany({
+          where: eq(notifications.userId, session.user.id),
+          orderBy: (n, { desc }) => [desc(n.createdAt)],
+          limit: 50,
+        })
+      : [];
   const role = session?.user?.role;
 
   return (
@@ -71,6 +84,7 @@ export async function NavBar() {
         <div className="flex items-center gap-3">
           {session ? (
             <div className="flex items-center gap-3">
+              <NotificationBell initialNotifications={userNotifications} />
               <span className="hidden text-sm text-gray-500 sm:block">
                 {session.user.name ?? session.user.email}
               </span>

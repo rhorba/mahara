@@ -4,7 +4,7 @@ import { ActionError } from "@/server/errors";
 import { withRole, withRoleNoInput } from "@/server/with-role";
 import { proposalSchema } from "@mahara/core";
 import type { SkillEntry } from "@mahara/core";
-import { computeMatchScore } from "@mahara/matching";
+import { money } from "@mahara/core/money";
 import {
   auditLogs,
   businessProfiles,
@@ -14,64 +14,56 @@ import {
   proposals,
   talentProfiles,
 } from "@mahara/db";
+import { computeMatchScore } from "@mahara/matching";
+import { scheduleJob } from "@mahara/notifications/queue";
+import { computeFees } from "@mahara/payments";
 import { and, desc, eq, ne } from "drizzle-orm";
 import { z } from "zod";
 
-function computeFees(grossAmount: number) {
-  const platformFeeFromBusiness = Math.round(grossAmount * 0.1);
-  const platformFeeFromTalent = Math.round(grossAmount * 0.05);
-  const talentPayout = grossAmount - platformFeeFromTalent;
-  return { grossAmount, platformFeeFromBusiness, platformFeeFromTalent, talentPayout };
-}
-
 // ── Talent: Apply / Withdraw ─────────────────────────────────────────────────
 
-export const applyToGig = withRole(
-  ["talent"],
-  proposalSchema,
-  async ({ tx, userId, input }) => {
-    const talentProfile = await tx.query.talentProfiles.findFirst({
-      where: eq(talentProfiles.userId, userId),
-    });
-    if (!talentProfile) throw new ActionError(403, "Talent profile required to apply");
+export const applyToGig = withRole(["talent"], proposalSchema, async ({ tx, userId, input }) => {
+  const talentProfile = await tx.query.talentProfiles.findFirst({
+    where: eq(talentProfiles.userId, userId),
+  });
+  if (!talentProfile) throw new ActionError(403, "Talent profile required to apply");
 
-    const gig = await tx.query.gigs.findFirst({
-      where: eq(gigs.id, input.gigId),
-    });
-    if (!gig) throw new ActionError(404, "Gig not found");
-    if (gig.status !== "open") {
-      throw new ActionError(400, "This gig is no longer accepting applications");
-    }
+  const gig = await tx.query.gigs.findFirst({
+    where: eq(gigs.id, input.gigId),
+  });
+  if (!gig) throw new ActionError(404, "Gig not found");
+  if (gig.status !== "open") {
+    throw new ActionError(400, "This gig is no longer accepting applications");
+  }
 
-    const matchScore = computeMatchScore(
-      {
-        skills: (talentProfile.skills as SkillEntry[]) ?? [],
-        skillVector: talentProfile.skillVector as number[] | null,
-        availability: talentProfile.availability as "available" | "in_project" | "unavailable",
-        avgRating: talentProfile.avgRating,
-      },
-      {
-        skills: gig.skills,
-        requirementVector: gig.requirementVector as number[] | null,
-      },
-    );
+  const matchScore = computeMatchScore(
+    {
+      skills: (talentProfile.skills as SkillEntry[]) ?? [],
+      skillVector: talentProfile.skillVector as number[] | null,
+      availability: talentProfile.availability as "available" | "in_project" | "unavailable",
+      avgRating: talentProfile.avgRating,
+    },
+    {
+      skills: gig.skills,
+      requirementVector: gig.requirementVector as number[] | null,
+    },
+  );
 
-    const [proposal] = await tx
-      .insert(proposals)
-      .values({
-        id: crypto.randomUUID(),
-        gigId: input.gigId,
-        talentId: talentProfile.id,
-        coverLetter: input.coverLetter ?? null,
-        proposedBudget: input.proposedBudget ?? null,
-        estimatedDays: input.estimatedDays ?? null,
-        matchScore,
-        status: "pending",
-      })
-      .returning();
-    return proposal;
-  },
-);
+  const [proposal] = await tx
+    .insert(proposals)
+    .values({
+      id: crypto.randomUUID(),
+      gigId: input.gigId,
+      talentId: talentProfile.id,
+      coverLetter: input.coverLetter ?? null,
+      proposedBudget: input.proposedBudget ?? null,
+      estimatedDays: input.estimatedDays ?? null,
+      matchScore,
+      status: "pending",
+    })
+    .returning();
+  return proposal;
+});
 
 export const withdrawProposal = withRole(
   ["talent"],
@@ -145,7 +137,7 @@ export const acceptProposal = withRole(
     });
     if (!talentProfile) throw new ActionError(500, "Talent profile not found");
 
-    const fees = computeFees(gig.budget);
+    const fees = computeFees(money(gig.budget));
 
     await tx
       .update(proposals)
@@ -176,7 +168,10 @@ export const acceptProposal = withRole(
         proposalId: proposal.id,
         businessId: userId,
         talentId: talentProfile.userId,
-        ...fees,
+        grossAmount: fees.grossAmount,
+        platformFeeFromBusiness: fees.platformFeeFromBusiness,
+        platformFeeFromTalent: fees.platformFeeFromTalent,
+        talentPayout: fees.talentPayout,
         status: "pending",
       })
       .returning();
@@ -201,8 +196,13 @@ export const acceptProposal = withRole(
       entity: "escrow",
       entityId: escrow.id,
       action: "create",
-      afterData: escrow,
+      afterData: { ...escrow, businessTotal: fees.businessTotal },
     });
+
+    // Schedule payment initiation job (fire-and-forget — business will see "Pay Now" on dashboard)
+    scheduleJob(tx, "payment.initiate", { escrowId: escrow.id, businessId: userId }).catch(
+      () => null,
+    );
 
     return { escrow, thread };
   },

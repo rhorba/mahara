@@ -2,8 +2,8 @@
 
 import { withRole, withRoleNoInput } from "@/server/with-role";
 import { talentProfileSchema } from "@mahara/core";
-import { updateTalentEmbedding } from "@mahara/matching";
 import { talentProfiles } from "@mahara/db";
+import { updateTalentEmbedding } from "@mahara/matching";
 import { eq } from "drizzle-orm";
 
 export const upsertTalentProfile = withRole(

@@ -214,6 +214,118 @@
       "50+": "50+ employés"
     }
   },
+  "payments": {
+    "escrow_banner_title": "Séquestre",
+    "status": {
+      "pending": "En attente de paiement",
+      "funded": "Fonds sécurisés",
+      "released": "Paiement libéré",
+      "refunded": "Remboursé",
+      "disputed": "Litige en cours"
+    },
+    "pay_now": "Payer maintenant",
+    "paying": "Redirection...",
+    "mark_complete": "Marquer comme terminée",
+    "marking_complete": "En cours...",
+    "release_payment": "Libérer le paiement",
+    "releasing": "Libération...",
+    "refund": "Rembourser",
+    "refunding": "Remboursement...",
+    "open_dispute": "Ouvrir un litige",
+    "opening_dispute": "Ouverture...",
+    "pending_msg": "Finalisez le paiement pour démarrer la mission. Les fonds seront sécurisés sur Mahara.",
+    "funded_in_progress_msg": "Les fonds sont sécurisés. Marquez la mission comme terminée lorsque le travail est livré.",
+    "funded_completed_msg": "Mission terminée ! Libérez le paiement une fois les avis soumis.",
+    "released_msg": "Paiement libéré avec succès. Merci d'utiliser Mahara.",
+    "refunded_msg": "Le budget a été remboursé.",
+    "disputed_msg": "Un litige est en cours. L'équipe Mahara va examiner et résoudre sous 72h.",
+    "fee_breakdown": "Détail des frais",
+    "budget": "Budget mission",
+    "platform_fee_business": "Frais Mahara (vous)",
+    "platform_fee_talent": "Frais Mahara (talent)",
+    "total_to_pay": "Total à payer",
+    "talent_receives": "Talent reçoit",
+    "earnings_title": "Mes revenus",
+    "earnings_total": "Total gagné",
+    "earnings_pending": "En attente de paiement",
+    "earnings_history": "Historique des paiements",
+    "earnings_empty": "Aucun paiement pour le moment.",
+    "earnings_upcoming": "Paiements à venir",
+    "payment_confirmed": "Paiement confirmé ! Les fonds sont maintenant sécurisés.",
+    "payment_failed": "Le paiement a échoué. Réessayez.",
+    "dispute_cta": "Problème avec la mission ?"
+  },
+  "reviews": {
+    "title": "Avis",
+    "leave_review": "Laisser un avis",
+    "rating": "Note (1–5)",
+    "comment": "Commentaire (optionnel)",
+    "comment_placeholder": "Partagez votre expérience avec cette personne...",
+    "submit": "Soumettre l'avis",
+    "submitting": "Envoi...",
+    "submitted": "Avis soumis !",
+    "already_reviewed": "Vous avez déjà laissé un avis pour cette mission.",
+    "reviews_count": "avis",
+    "avg_rating": "Note moyenne",
+    "no_reviews": "Aucun avis pour le moment.",
+    "review_prompt": "Cette mission est terminée — partagez votre expérience.",
+    "review_timeout_note": "Le paiement peut être libéré sans avis après 72h.",
+    "stars": {
+      "1": "Insuffisant",
+      "2": "Passable",
+      "3": "Bien",
+      "4": "Très bien",
+      "5": "Excellent"
+    }
+  },
+  "trust": {
+    "badge": {
+      "unverified": "Non vérifié",
+      "pending": "Vérification en cours",
+      "verified": "Vérifié",
+      "top_talent": "Top Talent"
+    },
+    "verification_title": "Vérification de compétences",
+    "request_verification": "Demander une vérification",
+    "requesting": "Envoi...",
+    "requested": "Demande envoyée !",
+    "select_skill": "Compétence à vérifier",
+    "select_method": "Méthode de vérification",
+    "method": {
+      "portfolio": "Portfolio",
+      "test": "Test de compétence",
+      "admin_review": "Revue par l'équipe Mahara"
+    },
+    "status": {
+      "pending": "En attente de revue",
+      "approved": "Approuvée",
+      "rejected": "Refusée"
+    },
+    "admin_note": "Note de l'admin",
+    "my_verifications": "Mes vérifications",
+    "no_verifications": "Aucune demande de vérification.",
+    "admin_queue": "File de vérification",
+    "approve": "Approuver",
+    "reject": "Refuser",
+    "approving": "Approbation...",
+    "rejecting": "Refus..."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "mark_all_read": "Tout marquer comme lu",
+    "empty": "Aucune notification.",
+    "unread_count": "non lue(s)",
+    "type": {
+      "gig_match": "Mission correspondante",
+      "proposal_accepted": "Candidature acceptée",
+      "proposal_rejected": "Candidature refusée",
+      "new_message": "Nouveau message",
+      "payment_released": "Paiement reçu",
+      "review_requested": "Avis demandé",
+      "verification_approved": "Compétence vérifiée",
+      "gig_completed": "Mission terminée"
+    }
+  },
   "errors": {
     "unauthorized": "Accès non autorisé",
     "forbidden": "Accès interdit",

@@ -54,9 +54,7 @@ vi.mock("@mahara/db", () => {
         findMany: vi.fn(async () => dbState.threadsResult),
       },
       messages: {
-        findMany: vi.fn(async () =>
-          dbState.messageResult ? [dbState.messageResult] : [],
-        ),
+        findMany: vi.fn(async () => (dbState.messageResult ? [dbState.messageResult] : [])),
       },
     },
     insert,
@@ -77,7 +75,12 @@ vi.mock("@mahara/db", () => {
         fn(mockTx),
     ),
     messageThreads: { id: "id", talentId: "talentId", businessId: "businessId" },
-    messages: { threadId: "threadId", readAt: "readAt", createdAt: "createdAt", senderId: "senderId" },
+    messages: {
+      threadId: "threadId",
+      readAt: "readAt",
+      createdAt: "createdAt",
+      senderId: "senderId",
+    },
   };
 });
 
@@ -122,7 +125,12 @@ const BUSINESS_SESSION: Session = {
 };
 
 const ADMIN_SESSION: Session = {
-  user: { id: "aaaa0000-0000-0000-0000-000000000001", email: "admin@test.ma", name: "Admin", role: "admin" },
+  user: {
+    id: "aaaa0000-0000-0000-0000-000000000001",
+    email: "admin@test.ma",
+    name: "Admin",
+    role: "admin",
+  },
   expires: "2099-01-01",
 };
 
@@ -144,21 +152,17 @@ describe("unauthenticated", () => {
   beforeEach(() => mockAuth.mockResolvedValue(null));
 
   it("sendMessage → 401", async () => {
-    await expect(
-      sendMessage({ threadId: ID.thread, body: "hello" }),
-    ).rejects.toMatchObject({ status: 401 });
+    await expect(sendMessage({ threadId: ID.thread, body: "hello" })).rejects.toMatchObject({
+      status: 401,
+    });
   });
 
   it("getThreadMessages → 401", async () => {
-    await expect(
-      getThreadMessages({ threadId: ID.thread }),
-    ).rejects.toMatchObject({ status: 401 });
+    await expect(getThreadMessages({ threadId: ID.thread })).rejects.toMatchObject({ status: 401 });
   });
 
   it("markThreadRead → 401", async () => {
-    await expect(
-      markThreadRead({ threadId: ID.thread }),
-    ).rejects.toMatchObject({ status: 401 });
+    await expect(markThreadRead({ threadId: ID.thread })).rejects.toMatchObject({ status: 401 });
   });
 
   it("getMyThreads → 401", async () => {
@@ -172,21 +176,17 @@ describe("admin role → 403 on messaging actions", () => {
   beforeEach(() => mockAuth.mockResolvedValue(ADMIN_SESSION));
 
   it("sendMessage → 403", async () => {
-    await expect(
-      sendMessage({ threadId: ID.thread, body: "hello" }),
-    ).rejects.toMatchObject({ status: 403 });
+    await expect(sendMessage({ threadId: ID.thread, body: "hello" })).rejects.toMatchObject({
+      status: 403,
+    });
   });
 
   it("getThreadMessages → 403", async () => {
-    await expect(
-      getThreadMessages({ threadId: ID.thread }),
-    ).rejects.toMatchObject({ status: 403 });
+    await expect(getThreadMessages({ threadId: ID.thread })).rejects.toMatchObject({ status: 403 });
   });
 
   it("markThreadRead → 403", async () => {
-    await expect(
-      markThreadRead({ threadId: ID.thread }),
-    ).rejects.toMatchObject({ status: 403 });
+    await expect(markThreadRead({ threadId: ID.thread })).rejects.toMatchObject({ status: 403 });
   });
 
   it("getMyThreads → 403", async () => {
@@ -203,21 +203,17 @@ describe("thread not found → 404", () => {
   });
 
   it("sendMessage → 404", async () => {
-    await expect(
-      sendMessage({ threadId: ID.thread, body: "hi" }),
-    ).rejects.toMatchObject({ status: 404 });
+    await expect(sendMessage({ threadId: ID.thread, body: "hi" })).rejects.toMatchObject({
+      status: 404,
+    });
   });
 
   it("getThreadMessages → 404", async () => {
-    await expect(
-      getThreadMessages({ threadId: ID.thread }),
-    ).rejects.toMatchObject({ status: 404 });
+    await expect(getThreadMessages({ threadId: ID.thread })).rejects.toMatchObject({ status: 404 });
   });
 
   it("markThreadRead → 404", async () => {
-    await expect(
-      markThreadRead({ threadId: ID.thread }),
-    ).rejects.toMatchObject({ status: 404 });
+    await expect(markThreadRead({ threadId: ID.thread })).rejects.toMatchObject({ status: 404 });
   });
 });
 
@@ -230,21 +226,17 @@ describe("non-participant talent cannot access thread", () => {
   });
 
   it("sendMessage by non-participant → 403", async () => {
-    await expect(
-      sendMessage({ threadId: ID.thread, body: "snoop" }),
-    ).rejects.toMatchObject({ status: 403 });
+    await expect(sendMessage({ threadId: ID.thread, body: "snoop" })).rejects.toMatchObject({
+      status: 403,
+    });
   });
 
   it("getThreadMessages by non-participant → 403", async () => {
-    await expect(
-      getThreadMessages({ threadId: ID.thread }),
-    ).rejects.toMatchObject({ status: 403 });
+    await expect(getThreadMessages({ threadId: ID.thread })).rejects.toMatchObject({ status: 403 });
   });
 
   it("markThreadRead by non-participant → 403", async () => {
-    await expect(
-      markThreadRead({ threadId: ID.thread }),
-    ).rejects.toMatchObject({ status: 403 });
+    await expect(markThreadRead({ threadId: ID.thread })).rejects.toMatchObject({ status: 403 });
   });
 });
 
@@ -258,9 +250,7 @@ describe("talent participant — success paths", () => {
 
   it("sendMessage succeeds when talent is thread participant", async () => {
     // insert mock is already wired to return MOCK_MSG (see mock setup above)
-    await expect(
-      sendMessage({ threadId: ID.thread, body: "hello" }),
-    ).resolves.toBeDefined();
+    await expect(sendMessage({ threadId: ID.thread, body: "hello" })).resolves.toBeDefined();
   });
 
   it("getMyThreads returns threads for talent role", async () => {
@@ -279,9 +269,7 @@ describe("business participant — success paths", () => {
   });
 
   it("getThreadMessages succeeds for business participant", async () => {
-    await expect(
-      getThreadMessages({ threadId: ID.thread }),
-    ).resolves.toBeDefined();
+    await expect(getThreadMessages({ threadId: ID.thread })).resolves.toBeDefined();
   });
 
   it("getMyThreads returns threads for business role", async () => {
@@ -297,21 +285,15 @@ describe("invalid input rejected by Zod", () => {
   beforeEach(() => mockAuth.mockResolvedValue(TALENT_SESSION));
 
   it("sendMessage with empty body → validation error (not 403)", async () => {
-    await expect(
-      sendMessage({ threadId: ID.thread, body: "" }),
-    ).rejects.toThrow();
+    await expect(sendMessage({ threadId: ID.thread, body: "" })).rejects.toThrow();
   });
 
   it("sendMessage with non-UUID threadId → validation error", async () => {
-    await expect(
-      sendMessage({ threadId: "not-a-uuid", body: "hi" }),
-    ).rejects.toThrow();
+    await expect(sendMessage({ threadId: "not-a-uuid", body: "hi" })).rejects.toThrow();
   });
 
   it("getThreadMessages with non-UUID threadId → validation error", async () => {
-    await expect(
-      getThreadMessages({ threadId: "not-a-uuid" }),
-    ).rejects.toThrow();
+    await expect(getThreadMessages({ threadId: "not-a-uuid" })).rejects.toThrow();
   });
 });
 
@@ -335,8 +317,8 @@ describe("no-contact-before-commitment invariant", () => {
     mockAuth.mockResolvedValue(BUSINESS_SESSION);
     dbState.threadResult = null;
 
-    await expect(
-      getThreadMessages({ threadId: ID.thread2 }),
-    ).rejects.toMatchObject({ status: 404 });
+    await expect(getThreadMessages({ threadId: ID.thread2 })).rejects.toMatchObject({
+      status: 404,
+    });
   });
 });

@@ -13,8 +13,10 @@ function scoreLabel(score: number): string {
 }
 
 function scoreColors(score: number): { bar: string; text: string; bg: string } {
-  if (score >= 80) return { bar: "bg-mahara-green", text: "text-mahara-green", bg: "bg-mahara-green/10" };
-  if (score >= 60) return { bar: "bg-mahara-gold", text: "text-mahara-gold", bg: "bg-mahara-gold/10" };
+  if (score >= 80)
+    return { bar: "bg-mahara-green", text: "text-mahara-green", bg: "bg-mahara-green/10" };
+  if (score >= 60)
+    return { bar: "bg-mahara-gold", text: "text-mahara-gold", bg: "bg-mahara-gold/10" };
   return { bar: "bg-gray-300", text: "text-gray-500", bg: "bg-gray-100" };
 }
 
@@ -32,9 +34,7 @@ export function MatchScoreBadge({ score, size = "md", showLabel = true }: Props)
       </div>
       <span className={`text-xs font-semibold tabular-nums ${text}`}>{score}%</span>
       {showLabel && (
-        <span className={`text-xs font-medium ${text} hidden sm:inline`}>
-          {scoreLabel(score)}
-        </span>
+        <span className={`text-xs font-medium ${text} hidden sm:inline`}>{scoreLabel(score)}</span>
       )}
     </div>
   );

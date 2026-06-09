@@ -1,18 +1,22 @@
 import { BusinessProposalActions } from "@/components/gigs/proposal-actions";
 import { MatchScoreBadge } from "@/components/matching/match-score-badge";
+import { EscrowStatusBanner } from "@/components/payments/escrow-status-banner";
 import { Link } from "@/i18n/navigation";
 import { auth } from "@/lib/auth";
 import type { Money, SkillEntry } from "@mahara/core";
 import { formatMoney } from "@mahara/core";
-import { businessProfiles, db, gigs, proposals } from "@mahara/db";
+import { businessProfiles, db, escrows, gigs, proposals } from "@mahara/db";
 import { and, desc, eq } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
 import { notFound, redirect } from "next/navigation";
 
-type Props = { params: Promise<{ locale: string; id: string }> };
+type Props = {
+  params: Promise<{ locale: string; id: string }>;
+  searchParams?: Promise<Record<string, string>>;
+};
 
 export default async function BusinessGigDetailPage({ params }: Props) {
-  const { id } = await params;
+  const { id, locale } = await params;
 
   const session = await auth();
   if (!session?.user?.id) redirect("/auth/login");
@@ -25,6 +29,11 @@ export default async function BusinessGigDetailPage({ params }: Props) {
     getTranslations("gigs.proposals"),
     getTranslations("gigs.proposals.status"),
   ]);
+
+  // Load escrow for this gig (may not exist yet — pending proposal acceptance)
+  const escrow = await db.query.escrows.findFirst({
+    where: eq(escrows.gigId, id),
+  });
 
   const businessProfile = await db.query.businessProfiles.findFirst({
     where: eq(businessProfiles.userId, session.user.id),
@@ -119,6 +128,26 @@ export default async function BusinessGigDetailPage({ params }: Props) {
           </div>
         )}
       </div>
+
+      {/* Escrow status banner */}
+      {escrow && (
+        <EscrowStatusBanner
+          escrowId={escrow.id}
+          gigId={gig.id}
+          escrowStatus={
+            escrow.status as "pending" | "funded" | "released" | "refunded" | "disputed"
+          }
+          gigStatus={
+            gig.status as "draft" | "open" | "in_progress" | "completed" | "cancelled" | "disputed"
+          }
+          grossAmount={escrow.grossAmount}
+          platformFeeFromBusiness={escrow.platformFeeFromBusiness}
+          platformFeeFromTalent={escrow.platformFeeFromTalent}
+          talentPayout={escrow.talentPayout}
+          userRole="business"
+          locale={locale}
+        />
+      )}
 
       {/* Proposals */}
       <div>
@@ -228,10 +257,7 @@ export default async function BusinessGigDetailPage({ params }: Props) {
                       {t("view_profile")}
                     </Link>
                     {gig.status === "open" && (
-                      <BusinessProposalActions
-                        proposalId={proposal.id}
-                        status={proposal.status}
-                      />
+                      <BusinessProposalActions proposalId={proposal.id} status={proposal.status} />
                     )}
                   </div>
                 </div>

@@ -36,11 +36,7 @@ export function computeMatchScore(talent: TalentForScoring, gig: GigForScoring):
 
   let matched = 0;
   for (const required of gigSkills) {
-    if (
-      talentSkills.some(
-        (t) => t === required || t.includes(required) || required.includes(t),
-      )
-    ) {
+    if (talentSkills.some((t) => t === required || t.includes(required) || required.includes(t))) {
       matched++;
     }
   }
@@ -48,18 +44,19 @@ export function computeMatchScore(talent: TalentForScoring, gig: GigForScoring):
 
   // ── 2. Vector similarity (0–100) ─────────────────────────────────────────
   let simScore = 50; // neutral when no vectors available
-  if (talent.skillVector && talent.skillVector.length > 0 && gig.requirementVector && gig.requirementVector.length > 0) {
+  if (
+    talent.skillVector &&
+    talent.skillVector.length > 0 &&
+    gig.requirementVector &&
+    gig.requirementVector.length > 0
+  ) {
     const sim = cosineSimilarity(talent.skillVector, gig.requirementVector);
     simScore = ((sim + 1) / 2) * 100; // [-1,1] → [0,100]
   }
 
   // ── 3. Availability (0 or 30 or 100) ─────────────────────────────────────
   const availScore =
-    talent.availability === "available"
-      ? 100
-      : talent.availability === "in_project"
-        ? 30
-        : 0;
+    talent.availability === "available" ? 100 : talent.availability === "in_project" ? 30 : 0;
 
   // ── 4. Rating (0–100) ────────────────────────────────────────────────────
   // avgRating is stored 0–500 (5 stars × 100). New talent: treat as neutral (50).

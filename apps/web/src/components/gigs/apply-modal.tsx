@@ -29,8 +29,7 @@ export function ApplyModal({ gigId, onClose, onSuccess }: Props) {
       form.proposedBudgetMad.trim() !== ""
         ? Math.round(Number(form.proposedBudgetMad) * 100)
         : undefined;
-    const estimatedDays =
-      form.estimatedDays.trim() !== "" ? Number(form.estimatedDays) : undefined;
+    const estimatedDays = form.estimatedDays.trim() !== "" ? Number(form.estimatedDays) : undefined;
 
     startTransition(async () => {
       try {
@@ -48,22 +47,18 @@ export function ApplyModal({ gigId, onClose, onSuccess }: Props) {
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/50"
+    <dialog
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/50 m-0 max-w-none max-h-none w-full h-full border-0"
       onClick={(e) => e.target === e.currentTarget && onClose()}
       onKeyDown={(e) => e.key === "Escape" && onClose()}
-      role="dialog"
-      aria-modal="true"
+      open
     >
       <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-6">
         <h2 className="text-lg font-bold text-gray-900 mb-4">{t("title")}</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              htmlFor="apply-cover"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label htmlFor="apply-cover" className="block text-sm font-medium text-gray-700 mb-1">
               {t("field_cover_letter")}
             </label>
             <textarea
@@ -97,10 +92,7 @@ export function ApplyModal({ gigId, onClose, onSuccess }: Props) {
               />
             </div>
             <div>
-              <label
-                htmlFor="apply-days"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor="apply-days" className="block text-sm font-medium text-gray-700 mb-1">
                 {t("field_estimated_days")}
               </label>
               <input
@@ -118,9 +110,7 @@ export function ApplyModal({ gigId, onClose, onSuccess }: Props) {
 
           <p className="text-xs text-gray-500 bg-gray-50 rounded-lg px-3 py-2">{t("notice")}</p>
 
-          {error && (
-            <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
 
           <div className="flex gap-3 pt-1">
             <button
@@ -140,6 +130,6 @@ export function ApplyModal({ gigId, onClose, onSuccess }: Props) {
           </div>
         </form>
       </div>
-    </div>
+    </dialog>
   );
 }

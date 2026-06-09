@@ -130,14 +130,8 @@ describe("computeMatchScore", () => {
   });
 
   it("higher rating produces higher score", () => {
-    const highRated = computeMatchScore(
-      { ...TALENT_BASE, avgRating: 500 },
-      GIG_BASE,
-    );
-    const lowRated = computeMatchScore(
-      { ...TALENT_BASE, avgRating: 100 },
-      GIG_BASE,
-    );
+    const highRated = computeMatchScore({ ...TALENT_BASE, avgRating: 500 }, GIG_BASE);
+    const lowRated = computeMatchScore({ ...TALENT_BASE, avgRating: 100 }, GIG_BASE);
     expect(highRated).toBeGreaterThanOrEqual(lowRated);
   });
 

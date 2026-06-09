@@ -3,6 +3,7 @@
 import { signIn, signOut } from "@/lib/auth";
 import { signupSchema } from "@mahara/core";
 import { db, users } from "@mahara/db";
+import { sendWelcomeEmail } from "@mahara/notifications/email";
 import * as argon2 from "argon2";
 import { eq } from "drizzle-orm";
 import { AuthError } from "next-auth";
@@ -52,6 +53,9 @@ export async function signupAction(_prev: ActionState, formData: FormData): Prom
     passwordHash,
     isActive: true,
   });
+
+  // Fire-and-forget welcome email — never block signup on email failure
+  sendWelcomeEmail(email, name, role as "talent" | "business").catch(() => null);
 
   const locale = await getLocale();
 

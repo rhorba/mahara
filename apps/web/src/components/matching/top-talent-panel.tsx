@@ -1,8 +1,8 @@
 import { MatchScoreBadge } from "@/components/matching/match-score-badge";
 import { Link } from "@/i18n/navigation";
-import type { TopTalentResult } from "@mahara/matching";
 import { formatMoney } from "@mahara/core";
 import type { Money, SkillEntry } from "@mahara/core";
+import type { TopTalentResult } from "@mahara/matching";
 import { getTranslations } from "next-intl/server";
 
 interface Props {
@@ -20,11 +20,7 @@ export async function TopTalentPanel({ talent, locale }: Props) {
   };
 
   if (talent.length === 0) {
-    return (
-      <div className="text-sm text-gray-400 text-center py-6">
-        {t("top_talent_empty")}
-      </div>
-    );
+    return <div className="text-sm text-gray-400 text-center py-6">{t("top_talent_empty")}</div>;
   }
 
   return (
@@ -47,11 +43,14 @@ export async function TopTalentPanel({ talent, locale }: Props) {
                 <span className="text-sm font-semibold text-gray-900 truncate">
                   {tp.user?.name ?? "—"}
                 </span>
-                {(tp.verificationStatus === "verified" || tp.verificationStatus === "top_talent") && (
+                {(tp.verificationStatus === "verified" ||
+                  tp.verificationStatus === "top_talent") && (
                   <span
                     className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${tVerif[tp.verificationStatus]}`}
                   >
-                    {tp.verificationStatus === "top_talent" ? t("top_talent_badge") : t("verified_badge")}
+                    {tp.verificationStatus === "top_talent"
+                      ? t("top_talent_badge")
+                      : t("verified_badge")}
                   </span>
                 )}
               </div>

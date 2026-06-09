@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./queue": "./src/queue.ts",
     "./email": "./src/email.ts",
     "./inapp": "./src/inapp.ts"
   },

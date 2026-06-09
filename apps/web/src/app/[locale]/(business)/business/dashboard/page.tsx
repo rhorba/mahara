@@ -5,12 +5,20 @@ import { eq } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 
-export default async function BusinessDashboard() {
+type Props = { searchParams?: Promise<Record<string, string>> };
+
+export default async function BusinessDashboard({ searchParams }: Props) {
   const session = await auth();
   if (!session?.user?.id) redirect("/auth/login");
   if (session.user.role !== "business") redirect("/");
 
-  const t = await getTranslations("profile.business");
+  const [t, tPayments] = await Promise.all([
+    getTranslations("profile.business"),
+    getTranslations("payments"),
+  ]);
+
+  const sp = await searchParams;
+  const paymentStatus = sp?.payment;
 
   const profile = await db.query.businessProfiles.findFirst({
     where: eq(businessProfiles.userId, session.user.id),
@@ -21,6 +29,18 @@ export default async function BusinessDashboard() {
       <h1 className="mb-6 text-2xl font-bold text-mahara-green">
         Bonjour, {session.user.name ?? "Entreprise"} 👋
       </h1>
+
+      {paymentStatus === "funded" && (
+        <div className="mb-6 rounded-xl border border-mahara-green/30 bg-mahara-green/5 px-4 py-3 text-sm text-mahara-green">
+          {tPayments("payment_confirmed")}
+        </div>
+      )}
+
+      {paymentStatus === "failed" && (
+        <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {tPayments("payment_failed")}
+        </div>
+      )}
 
       {!profile && (
         <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">

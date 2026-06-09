@@ -4,6 +4,84 @@
 
 ---
 
+### 2026-06-09 SPRINT_SNAPSHOT — Sprint 4
+
+**Sprint goal**: Payments & Escrow (fund → release → refund → dispute).
+
+- Planned: 14 | Completed: 14 | Blocked: 0
+- New packages modified: 1 (packages/payments: fees.ts, adapter.ts, escrow.ts, index.ts)
+- DB migration: 0003_sprint4_payments.sql (audit_action enum += 'fund', 'refund')
+- Server actions: 6 (initiatePayment, markGigComplete, releaseEscrow, refundEscrow, openDispute, resolveDispute)
+- API routes: 1 (GET /api/payments/callback — DevGateway callback, triggers escrow.fund())
+- Worker jobs: 2 (payment.initiate, payment.payout queue names; escrowSweep implemented)
+- UI components: 1 (EscrowStatusBanner — status-aware CTA + fee breakdown, client component)
+- UI pages new: 1 (talent earnings: /talent/earnings — total earned, pending, history)
+- UI pages updated: 2 (business gig detail + escrow banner; business dashboard + payment confirmation)
+- i18n keys: ~40 (payments namespace in fr.json, ar.json, en.json)
+- Unit tests: +26 (fees.test.ts: 7 tests; escrow-state-machine.test.ts: 19 tests); payments-rbac.test.ts: 18 tests; total **127/127 passing**
+- TS errors: 0 (pnpm tsc --noEmit clean)
+- Biome errors: 0
+
+**Technical decisions**
+- EscrowStateMachine accepts optional `tx` param — runs in caller's transaction when passed (server actions), starts own transaction when omitted (API route callback). Avoids nested tx conflicts.
+- DevGateway: always-succeed mock for development — redirects to `/api/payments/callback?ref=escrowId&status=success`. Swappable to CMIGateway via PaymentGateway interface.
+- Fee arithmetic uses integer basis points (1000 = 10%, 500 = 5%) with `Math.floor` — never float multiplication.
+- releaseEscrow: requires ≥2 reviews OR 72h timeout since gig.updatedAt — prevents permanent escrow lock if one party abandons review.
+- `role` prop renamed to `userRole` on EscrowStatusBanner to avoid Biome ARIA lint false-positive.
+
+---
+
+### 2026-06-09 SPRINT_SNAPSHOT — Sprint 5
+
+**Sprint goal**: Reviews, Trust, Skill verification, Notifications + Email.
+
+- Planned: 11 | Completed: 11 | Blocked: 0
+- Server actions new: 4 files (review.ts, skill-verification.ts, notification.ts, inapp.ts)
+- Email: packages/notifications/src/email.ts — 4 transactional templates (welcome, gig alert digest, payment confirmation, review request)
+- Worker: emailDigestSweep() wired to email.digest pg-boss job
+- UI components new: 3 (ReviewForm, VerificationRequestPanel, NotificationBell)
+- UI pages updated: 2 (talent profile page + verification panel; public gig detail + review form)
+- Navbar: server-fetches 50 notifications, passes to NotificationBell client component
+- i18n keys: ~90 (reviews + trust + notifications namespaces in fr.json, ar.json, en.json)
+- Unit tests new: +35 (reviews.test.ts: 24; notifications.test.ts: 11); **total 136/136 passing**
+- TS errors: 0 | Biome errors: 0
+
+**Technical decisions**
+- avgRating stored as integer 0-500 (rawAvg × 100): sub-whole-star precision without float storage; formatted back as 0–5 on display
+- verificationStatus: never demoted — promotes only (unverified → verified → top_talent); threshold check runs in same tx as review insert
+- ReviewForm party check done server-side via escrow (businessId/talentId are direct user.id refs) — no separate talentProfile join needed
+- NotificationBell: server component pre-fetches for fast initial render; client component handles optimistic mark-read without refetch
+- Resend email: fire-and-forget (.catch(() => null)) — email failures never break signup or payment flows
+- Test mocking pattern: vi.mock("@mahara/db", importOriginal → {...actual, withUserContext: vi.fn(fn => fn(mockTx))}) — keeps real table definitions, replaces only DB call; mirrors escrow-state-machine test pattern
+
+**DoD checks for Sprint 4 scope**
+
+| | Item |
+|---|---|
+| ✅ | EscrowStateMachine: pending → funded → released/refunded/disputed → resolved |
+| ✅ | No state skipping enforced (19 transition tests, 7 invalid throw) |
+| ✅ | AuditLog written on every escrow state transition in same transaction |
+| ✅ | Platform fees: 10% from business + 5% from talent = 15% GMV, stored as integer centimes |
+| ✅ | DevGateway adapter interface — swappable, zero real payment creds in dev |
+| ✅ | initiatePayment server action: business-only, ownership checked, redirects to gateway |
+| ✅ | markGigComplete: business-only, sets gig completed, notifies both parties for review |
+| ✅ | releaseEscrow: business-only, requires funded + completed + (2 reviews OR 72h timeout) |
+| ✅ | refundEscrow: business-only, only for in_progress (pre-completion) gigs |
+| ✅ | openDispute: talent or business, party-check enforced |
+| ✅ | resolveDispute: admin-only, notifies recipient |
+| ✅ | EscrowStatusBanner: state-aware CTA (Pay Now / Mark Complete / Release / Dispute) |
+| ✅ | Fee breakdown panel shown on pending + funded status |
+| ✅ | Business dashboard shows payment_confirmed / payment_failed banner on query param |
+| ✅ | Talent earnings page: total earned, pending (funded escrows), history (released) |
+| ✅ | i18n: payments namespace complete in FR + AR + EN |
+| ✅ | RBAC: 18 tests — 401 unauth, 403 role denials, business isolation, party checks |
+| ✅ | escrowSweep worker: reminds business to pay (>24h pending) and to release (>72h completed) |
+| ✅ | Money as integer centimes everywhere; formatMoney on display only |
+
+**Sprint 4 → Sprint 5 handoff**: Reviews, Trust, Skill verification, Notifications + Email (Resend). Review system is the last blocker before full payment release flows.
+
+---
+
 ### 2026-06-09 SPRINT_SNAPSHOT — Sprint 3
 
 **Sprint goal**: AI matching engine (pgvector skill embeddings + scoring) + Messaging (DB-backed threads, post-acceptance only).

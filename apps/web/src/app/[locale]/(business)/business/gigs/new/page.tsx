@@ -1,6 +1,6 @@
 import { GigPostForm } from "@/components/gigs/gig-post-form";
 import { auth } from "@/lib/auth";
-import { db, businessProfiles } from "@mahara/db";
+import { businessProfiles, db } from "@mahara/db";
 import { eq } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";

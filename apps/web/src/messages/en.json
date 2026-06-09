@@ -214,6 +214,118 @@
       "50+": "50+ employees"
     }
   },
+  "payments": {
+    "escrow_banner_title": "Escrow",
+    "status": {
+      "pending": "Awaiting payment",
+      "funded": "Funds secured",
+      "released": "Payment released",
+      "refunded": "Refunded",
+      "disputed": "Dispute in progress"
+    },
+    "pay_now": "Pay now",
+    "paying": "Redirecting...",
+    "mark_complete": "Mark as complete",
+    "marking_complete": "Processing...",
+    "release_payment": "Release payment",
+    "releasing": "Releasing...",
+    "refund": "Refund",
+    "refunding": "Refunding...",
+    "open_dispute": "Open a dispute",
+    "opening_dispute": "Opening...",
+    "pending_msg": "Complete payment to start the gig. Funds will be held securely on Mahara.",
+    "funded_in_progress_msg": "Funds are secured. Mark the gig as complete when work is delivered.",
+    "funded_completed_msg": "Gig complete! Release payment once reviews are submitted.",
+    "released_msg": "Payment released successfully. Thank you for using Mahara.",
+    "refunded_msg": "The budget has been refunded.",
+    "disputed_msg": "A dispute is open. The Mahara team will review and resolve within 72h.",
+    "fee_breakdown": "Fee breakdown",
+    "budget": "Gig budget",
+    "platform_fee_business": "Mahara fee (you)",
+    "platform_fee_talent": "Mahara fee (talent)",
+    "total_to_pay": "Total to pay",
+    "talent_receives": "Talent receives",
+    "earnings_title": "My earnings",
+    "earnings_total": "Total earned",
+    "earnings_pending": "Pending payment",
+    "earnings_history": "Payment history",
+    "earnings_empty": "No payments yet.",
+    "earnings_upcoming": "Upcoming payments",
+    "payment_confirmed": "Payment confirmed! Funds are now secured.",
+    "payment_failed": "Payment failed. Please try again.",
+    "dispute_cta": "Issue with this gig?"
+  },
+  "reviews": {
+    "title": "Reviews",
+    "leave_review": "Leave a review",
+    "rating": "Rating (1–5)",
+    "comment": "Comment (optional)",
+    "comment_placeholder": "Share your experience with this person...",
+    "submit": "Submit review",
+    "submitting": "Submitting...",
+    "submitted": "Review submitted!",
+    "already_reviewed": "You have already left a review for this gig.",
+    "reviews_count": "review(s)",
+    "avg_rating": "Average rating",
+    "no_reviews": "No reviews yet.",
+    "review_prompt": "This gig is complete — share your experience.",
+    "review_timeout_note": "Payment can be released without a review after 72h.",
+    "stars": {
+      "1": "Poor",
+      "2": "Fair",
+      "3": "Good",
+      "4": "Very good",
+      "5": "Excellent"
+    }
+  },
+  "trust": {
+    "badge": {
+      "unverified": "Unverified",
+      "pending": "Verification pending",
+      "verified": "Verified",
+      "top_talent": "Top Talent"
+    },
+    "verification_title": "Skill verification",
+    "request_verification": "Request verification",
+    "requesting": "Sending...",
+    "requested": "Request sent!",
+    "select_skill": "Skill to verify",
+    "select_method": "Verification method",
+    "method": {
+      "portfolio": "Portfolio",
+      "test": "Skill test",
+      "admin_review": "Mahara team review"
+    },
+    "status": {
+      "pending": "Pending review",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "admin_note": "Admin note",
+    "my_verifications": "My verifications",
+    "no_verifications": "No verification requests.",
+    "admin_queue": "Verification queue",
+    "approve": "Approve",
+    "reject": "Reject",
+    "approving": "Approving...",
+    "rejecting": "Rejecting..."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "mark_all_read": "Mark all as read",
+    "empty": "No notifications.",
+    "unread_count": "unread",
+    "type": {
+      "gig_match": "Matching gig",
+      "proposal_accepted": "Application accepted",
+      "proposal_rejected": "Application rejected",
+      "new_message": "New message",
+      "payment_released": "Payment received",
+      "review_requested": "Review requested",
+      "verification_approved": "Skill verified",
+      "gig_completed": "Gig completed"
+    }
+  },
   "errors": {
     "unauthorized": "Unauthorized",
     "forbidden": "Forbidden",

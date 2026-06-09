@@ -1,7 +1,12 @@
 import type { Database } from "@mahara/db";
 import PgBoss from "pg-boss";
 
-type QueueName = "gig.alerts.sweep" | "escrow.sweep" | "email.digest";
+export type QueueName =
+  | "gig.alerts.sweep"
+  | "escrow.sweep"
+  | "email.digest"
+  | "payment.initiate"
+  | "payment.payout";
 
 /**
  * Enqueue a background job inside an existing Drizzle transaction.

@@ -64,6 +64,12 @@ export default async function TalentDashboard() {
         >
           Messagerie
         </Link>
+        <Link
+          href="/talent/earnings"
+          className="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+        >
+          Mes revenus
+        </Link>
       </div>
     </main>
   );

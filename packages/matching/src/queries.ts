@@ -76,10 +76,7 @@ export interface TopTalentResult {
  *     by vector distance, then re-rank by full computeMatchScore.
  *  2. If no vector: score all available talent by skill overlap only.
  */
-export async function getTopTalentForGig(
-  gigId: string,
-  limit = 5,
-): Promise<TopTalentResult[]> {
+export async function getTopTalentForGig(gigId: string, limit = 5): Promise<TopTalentResult[]> {
   const gig = await db.query.gigs.findFirst({
     where: eq(gigs.id, gigId),
   });
@@ -93,7 +90,9 @@ export async function getTopTalentForGig(
     const rows = await db
       .select({ id: talentProfiles.id })
       .from(talentProfiles)
-      .where(and(isNotNull(talentProfiles.skillVector), ne(talentProfiles.availability, "unavailable")))
+      .where(
+        and(isNotNull(talentProfiles.skillVector), ne(talentProfiles.availability, "unavailable")),
+      )
       .orderBy(sql`${talentProfiles.skillVector} <=> ${vectorLiteral}::vector`)
       .limit(50);
 

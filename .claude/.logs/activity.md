@@ -324,3 +324,81 @@
 - `apps/web/src/server/__tests__/messaging-rbac.test.ts` (23 tests): unauth → 401; admin → 403; thread-not-found → 404; non-participant → 403; valid talent/business participant → resolves; Zod validation; "no contact before commitment" invariant
 
 ### S3-11 ✅ Sprint 3 snapshot — Project Monitor (this entry)
+
+## 2026-06-09 — Session 6 (Sprint 4 + Sprint 5)
+
+### S4-08 ✅ EscrowStatusBanner — Frontend Dev
+- `apps/web/src/components/payments/escrow-status-banner.tsx` (client component)
+- Status-aware CTAs: Pay Now (pending), Mark Complete + Release (funded/completed), Dispute
+- Fee breakdown panel; prop renamed `userRole` (was `role`) to avoid Biome ARIA lint
+- All buttons use useTransition + server actions
+
+### S4-09 ✅ Business gig detail + escrow query — Frontend Dev
+- `apps/web/src/app/[locale]/(business)/business/gigs/[id]/page.tsx` updated
+- Queries escrow for gig; renders EscrowStatusBanner when present
+
+### S4-10 ✅ Business dashboard payment confirmation — Frontend Dev
+- Dashboard shows green banner on `?payment=funded`, red on `?payment=failed`
+
+### S4-11 ✅ Talent earnings page — Frontend Dev
+- `apps/web/src/app/[locale]/(talent)/talent/earnings/page.tsx`
+- Summary cards: total earned (released) + total pending (funded)
+- Sections: upcoming payouts + payment history; links from dashboard
+
+### S4-12 ✅ Payments i18n (FR/AR/EN) — Content Editor
+- `payments` namespace added to fr.json, ar.json, en.json (~40 keys each)
+
+### S5-01 ✅ Review server actions — Backend Dev
+- `apps/web/src/app/actions/review.ts`
+- createReview (talent/business): party check via escrow, completed-gig gate, reviewee derived from role (never client input); DB unique constraint (gigId+reviewerId) prevents double reviews
+- updateTalentStats: aggregates avg/count from reviews, promotes verificationStatus (verified ≥3 reviews ≥350; top_talent ≥10 ≥450; never demotes)
+- getGigReviews, hasReviewedGig
+
+### S5-02 ✅ talentProfile stat update — Backend Dev (bundled in S5-01)
+- avgRating stored as Math.round(rawAvg * 100): range 0-500
+- verificationStatus promoted in same transaction as review insert; never demoted
+- completedGigs recomputed from count of business reviews received
+
+### S5-03 ✅ Skill verification server actions — Backend Dev
+- `apps/web/src/app/actions/skill-verification.ts`
+- requestSkillVerification (talent): validates skill on profile, rejects duplicate pending/approved
+- approveSkillVerification (admin): marks skill.verified=true in JSONB, promotes status to "verified", notifies talent
+- rejectSkillVerification (admin), getMyVerifications (talent), getPendingVerifications (admin)
+
+### S5-04 ✅ In-app notifications — Backend Dev
+- `packages/notifications/src/inapp.ts` — insertNotification / insertNotifications bulk
+- `apps/web/src/app/actions/notification.ts` — getMyNotifications, getUnreadCount, markNotificationRead, markAllNotificationsRead
+
+### S5-06 ✅ Email (Resend) — Backend Dev
+- `packages/notifications/src/email.ts` — sendWelcomeEmail, sendGigAlertDigest, sendPaymentConfirmation, sendReviewRequest
+- Lazy Resend init; fire-and-forget (.catch(() => null)) from server actions; re_placeholder_dev fallback
+- Auth action: welcome email after signup
+- Worker: emailDigestSweep() added to email.digest pg-boss job
+
+### S5-05 ✅ Verification UI + talent profile page — Frontend Dev
+- `apps/web/src/components/trust/verification-request.tsx` — VerificationRequestPanel client component
+- `apps/web/src/app/[locale]/(talent)/talent/profile/page.tsx` — queries skillVerifications, renders panel below profile form
+
+### S5-07 ✅ ReviewForm + gig detail wiring — Frontend Dev
+- `apps/web/src/components/reviews/review-form.tsx` — star rating (1-5 ★), hover effect, comment, submit
+- `apps/web/src/app/[locale]/(public)/gigs/[id]/page.tsx` — party check via escrow, shows ReviewForm or "already reviewed" message for completed gigs
+
+### S5-08 ✅ NotificationBell — Frontend Dev
+- `apps/web/src/components/notifications/notification-bell.tsx` — bell icon, unread badge, dropdown, mark-read, mark-all, navigate on click, outside-click close
+- `apps/web/src/components/nav/navbar.tsx` — pre-fetches up to 50 notifications server-side; passes to bell
+
+### S5-09 ✅ i18n: reviews/trust/notifications namespaces — Content Editor
+- `reviews`, `trust`, `notifications` namespaces added to fr.json, ar.json, en.json
+
+### S5-10 ✅ Sprint 5 tests — Tester
+- `apps/web/src/__tests__/reviews.test.ts` (24 tests):
+  - Rating math: avgRating 0-500 formula + 6 boundary/rounding cases
+  - Verification promotion: 8 tests covering all threshold/no-demotion cases
+  - createReview RBAC: admin→403, unauth→401, non-completed gig→400, non-party business→403, non-party talent→403, missing escrow→404, Zod validation
+- `apps/web/src/__tests__/notifications.test.ts` (11 tests):
+  - getUnreadCount: 0, N, null DB value, 401 unauth
+  - markAllNotificationsRead: ok:true, single update call, 401 unauth
+  - markNotificationRead: success, already-read early-return, 404 not-found, 401 unauth
+- **136/136 tests passing** across 7 test suites | TS errors: 0 | Biome errors: 0
+
+### S5-11 ✅ Sprint 5 snapshot — Project Monitor (this entry)
