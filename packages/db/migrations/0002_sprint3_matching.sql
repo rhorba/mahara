@@ -18,6 +18,8 @@ CREATE INDEX "idx_talent_profiles_skill_vector" ON "talent_profiles"
 
 -- ─── gigs.requirement_vector: 1536 → 384 ─────────────────────────────────────
 
+DROP INDEX IF EXISTS "idx_gigs_requirement_vector";--> statement-breakpoint
+
 ALTER TABLE "gigs"
   ALTER COLUMN "requirement_vector" TYPE vector(384)
   USING NULL::vector(384);--> statement-breakpoint
