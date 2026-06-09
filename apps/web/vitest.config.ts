@@ -7,6 +7,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
       "@mahara/core": path.resolve(__dirname, "../../packages/core/src/index.ts"),
       "@mahara/db": path.resolve(__dirname, "../../packages/db/src/index.ts"),
+      "@mahara/matching": path.resolve(__dirname, "../../packages/matching/src/index.ts"),
     },
   },
   test: {

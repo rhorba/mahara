@@ -20,7 +20,7 @@ export const vector = customType<{
   config: { dimensions: number };
 }>({
   dataType(config) {
-    return `vector(${config?.dimensions ?? 1536})`;
+    return `vector(${config?.dimensions ?? 384})`;
   },
   toDriver(value: number[]): string {
     return `[${value.join(",")}]`;
@@ -49,7 +49,7 @@ export const talentProfiles = pgTable(
     verificationStatus: verificationStatusEnum("verification_status")
       .notNull()
       .default("unverified"),
-    skillVector: vector("skill_vector", { dimensions: 1536 }), // Sprint 3
+    skillVector: vector("skill_vector", { dimensions: 384 }), // 384-dim (all-MiniLM-L6-v2 compatible)
     reviewCount: integer("review_count").notNull().default(0),
     avgRating: integer("avg_rating").notNull().default(0), // 0-500 (x100)
     responseRate: integer("response_rate").notNull().default(0), // 0-100

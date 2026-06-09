@@ -87,3 +87,31 @@ Task: S1-09 seed + S1-12 snapshot
 Context: All code done. Seed needs to be written idempotently.
 Need: Seed data per CLAUDE.md §8 + snapshot + Sprint 2 approval request.
 Constraints: argon2 added to packages/db devDeps; seed checks for existing yasmine@demo.mahara.ma.
+
+---
+
+## 2026-06-09 — Session 4 handoffs (Sprint 2)
+
+HANDOFF: UX Designer → Backend Dev
+Task: S2-02, S2-03 — Gig CRUD + Proposal server actions
+Context: Sprint 2 wireframes delivered; marketplace flow designed.
+Need: createGig/publishGig/closeGig + applyToGig/acceptProposal (atomic with escrow + thread + audit).
+Constraints: businessId from DB profile (not client); acceptProposal atomic in one transaction; computeFees: 10% biz, 5% talent.
+
+HANDOFF: Backend Dev → Frontend Dev
+Task: S2-04 through S2-08 — All 5 marketplace pages
+Context: All server actions ready (gig CRUD, proposal lifecycle). lib/gig-queries for public SSR.
+Need: Public gig browse (SSR, no auth), gig detail+apply, business post form, business proposal view, talent proposals list.
+Constraints: No auth for public browse (db direct, RLS filters); Next.js 15 await params/searchParams; no hardcoded text.
+
+HANDOFF: Frontend Dev → Tester
+Task: S2-10 — RBAC + role isolation tests
+Context: All 11 Sprint 2 tasks complete. 60 tests passing.
+Need: Tests for gig/proposal RBAC: talent→403 on gig mutations, business→403 on proposals, ownership isolation, audit log count.
+Constraints: vi.hoisted() for dbState (vi.mock factory hoisting); use proper UUIDs (Zod validates uuid format).
+
+HANDOFF: Tester → Project Monitor
+Task: S2-11 — Sprint 2 snapshot
+Context: 60/60 tests green, pnpm build clean, all 11 S2 tasks done.
+Need: Sprint snapshot, metrics update, Sprint 3 approval request.
+Constraints: Sprint 3 goal = AI matching engine (pgvector + scoring) + Messaging.

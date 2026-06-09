@@ -52,6 +52,18 @@ export default async function TalentDashboard() {
         >
           Voir les offres
         </Link>
+        <Link
+          href="/talent/proposals"
+          className="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+        >
+          Mes candidatures
+        </Link>
+        <Link
+          href="/talent/messages"
+          className="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+        >
+          Messagerie
+        </Link>
       </div>
     </main>
   );

@@ -201,3 +201,126 @@
 - Role isolation invariant: withUserContext called with session.userId — RLS scope guaranteed
 
 ### S1-12 ✅ Sprint 1 snapshot — Project Monitor (this entry)
+
+## 2026-06-09 — Session 4 (Sprint 2)
+
+### S2-01 ✅ UX wireframes — gig marketplace flows — UX Designer
+- Gig post form flow, public browse, apply modal, proposal management wireframes delivered
+- Mobile-first: talent apply flow optimised for 375px, single-tap cover letter
+
+### S2-02 ✅ Gig CRUD server actions — Backend Dev
+- `apps/web/src/app/actions/gig.ts`
+- createGig (business) — draft status, businessId from DB profile
+- updateGig (business) — partial update; draft/open only
+- publishGig (business) — draft → open
+- closeGig (business) — open → cancelled
+- getOwnGigs (business) — all gigs by businessProfile.id
+
+### S2-03 ✅ Proposal server actions — Backend Dev
+- `apps/web/src/app/actions/proposal.ts`
+- computeFees() — 10% from business, 5% from talent, talentPayout = budget − 5%
+- applyToGig (talent) — open gig required; talentProfile from session userId
+- withdrawProposal (talent) — own proposals only, pending status required
+- getOwnProposals (talent) — with gig.business.user join
+- acceptProposal (business) — ATOMIC: accept, bulk-reject others, gig→in_progress, escrow (pending), messageThread, auditLog
+- rejectProposal (business) — own gig ownership verified
+- getGigProposals (business) — ranked by matchScore desc
+
+### S2-04 ✅ Public gig browse page (SSR) — Frontend Dev
+- `apps/web/src/app/[locale]/(public)/gigs/page.tsx`
+- `apps/web/src/lib/gig-queries.ts` — listOpenGigs + getPublicGigDetail (db directly, RLS public read)
+- Category chips (Link-based), search (GET form), urgent toggle, pagination
+- No auth required; RLS filters out draft gigs automatically
+
+### S2-05 ✅ Gig detail + apply button — Frontend Dev
+- `apps/web/src/app/[locale]/(public)/gigs/[id]/page.tsx`
+- `apps/web/src/components/gigs/apply-button.tsx` — shows modal if talent, login link if anon, nothing if business
+- `apps/web/src/components/gigs/apply-modal.tsx` — cover letter + proposed budget + estimated days
+- generateMetadata for SEO
+
+### S2-06 ✅ Business gig post form page — Frontend Dev
+- `apps/web/src/app/[locale]/(business)/business/gigs/new/page.tsx`
+- `apps/web/src/components/gigs/gig-post-form.tsx` — client component; Save draft + Publish buttons
+- `apps/web/src/app/[locale]/(business)/business/gigs/page.tsx` — list own gigs with status pills
+
+### S2-07 ✅ Business gig detail + proposals page — Frontend Dev
+- `apps/web/src/app/[locale]/(business)/business/gigs/[id]/page.tsx`
+- `apps/web/src/components/gigs/proposal-actions.tsx` — BusinessProposalActions + TalentProposalActions
+- Per-proposal: match score bar, skills, cover letter preview, accept/reject buttons
+
+### S2-08 ✅ Talent proposals list page — Frontend Dev
+- `apps/web/src/app/[locale]/(talent)/talent/proposals/page.tsx`
+- Grouped: Accepted (messagerie CTA) → Pending (withdraw) → Historique
+- Dashboard links updated for both talent and business
+
+### S2-09 ✅ i18n: gigs namespace — Content Editor
+- `apps/web/src/messages/fr.json`, `ar.json`, `en.json` — full `gigs` namespace
+- categories, status, post.*, apply.*, proposals.*, badges, escrow_note, match_score
+
+### S2-10 ✅ RBAC + role isolation tests — Tester
+- `apps/web/src/server/__tests__/gig-proposal-rbac.test.ts` (35 unit tests)
+- createGig/updateGig/publishGig/closeGig/getOwnGigs: talent → 403, unauth → 401
+- applyToGig/withdrawProposal/getOwnProposals: business → 403, unauth → 401
+- acceptProposal/rejectProposal/getGigProposals: talent → 403, unauth → 401
+- Ownership isolation: gig must belong to business (wrong bizProfile → 403)
+- acceptProposal: 3 inserts verified (escrow + thread + auditLog in one transaction)
+- Cross-role: withUserContext always called with session userId — never client-provided
+- Fixed: `escrow` possibly-undefined TS error in proposal.ts (null-guard after .returning())
+- pnpm build ✅ zero TS errors | pnpm test ✅ 60/60 (3 suites)
+
+### S2-11 ✅ Sprint 2 snapshot — Project Monitor (this entry)
+
+## 2026-06-09 — Session 5 (Sprint 3)
+
+### S3-01 ✅ DB migration 0002 — DBA
+- `packages/db/migrations/0002_sprint3_matching.sql`
+- Resized both vector columns 1536→384 (`USING NULL::vector(384)` — safe, no embeddings stored)
+- Dropped + recreated HNSW index on talent_profiles.skill_vector (384-dim, vector_cosine_ops)
+- New HNSW index on gigs.requirement_vector (384-dim, vector_cosine_ops)
+- Drizzle schema files updated: talent-profiles.ts + gigs.ts → vector(384)
+
+### S3-02 ✅ Matching engine package — Matching Engine Engineer
+- `packages/matching/src/embed.ts` — deterministic 384-dim FNV-1a trigram hashing; fully offline, no model downloads; similar skill names (React/ReactJS) share trigrams → similar vectors; unit-normalised output
+- `packages/matching/src/score.ts` — `computeMatchScore(talent, gig)` → integer 0–100; 40% skill overlap + 30% vector cosine + 20% availability + 10% rating
+- `packages/matching/src/queries.ts` — `updateTalentEmbedding`, `updateGigEmbedding`, `getTopTalentForGig` (two-phase: pgvector top-50 → JS re-rank)
+- `packages/matching/src/index.ts` — public API barrel export
+
+### S3-03 ✅ Backend wiring — Backend Dev
+- `apps/web/src/app/actions/talent-profile.ts` — fire-and-forget `updateTalentEmbedding` after profile save
+- `apps/web/src/app/actions/gig.ts` — fire-and-forget `updateGigEmbedding` after publishGig
+- `apps/web/src/app/actions/proposal.ts` — real `computeMatchScore` on apply (was hardcoded 0)
+
+### S3-04 ✅ Message CRUD server actions — Backend Dev
+- `apps/web/src/app/actions/message.ts`
+- `sendMessage` (talent/business) — participant verify + insert + lastMessageAt update
+- `getThreadMessages` (talent/business) — participant verify + paginated asc
+- `markThreadRead` (talent/business) — bulk readAt for own unread
+- `getMyThreads` (talent/business) — all threads with gig + other party + latest message
+
+### S3-05 ✅ Match score UI — Frontend Dev
+- `apps/web/src/components/matching/match-score-badge.tsx` — client component; green ≥80%, gold ≥60%, gray <60%; color-coded bar + percentage
+- `apps/web/src/components/matching/top-talent-panel.tsx` — server async component; top-5 talent with avatar, verification badge, skill chips, MatchScoreBadge, profile link
+- `apps/web/src/app/[locale]/(public)/gigs/[id]/page.tsx` — TopTalentPanel shown to business/admin only
+- `apps/web/src/app/[locale]/(business)/business/gigs/[id]/page.tsx` — score bar replaced with MatchScoreBadge
+
+### S3-06 ✅ Messaging UI — Frontend Dev
+- `apps/web/src/components/messaging/message-composer.tsx` — textarea + send (Ctrl+Enter), calls sendMessage action, router.refresh()
+- `apps/web/src/app/[locale]/(talent)/talent/messages/page.tsx` — thread list with gig + business + latest message
+- `apps/web/src/app/[locale]/(talent)/talent/messages/[threadId]/page.tsx` — full message view, participant-gated
+- `apps/web/src/app/[locale]/(business)/business/messages/page.tsx` — thread list (business perspective)
+- `apps/web/src/app/[locale]/(business)/business/messages/[threadId]/page.tsx` — full message view
+
+### S3-07 ✅ i18n: matching + messaging namespaces — Content Editor
+- Added to `gigs` namespace: top_talent_for_gig, top_talent_empty, match_excellent/good/partial, top_talent_invite
+- New `messaging` namespace: title, no_threads, thread_with, send_placeholder, send_btn, sending, sent, no_messages, you, view_gig, unread, attach_file
+
+### S3-08 ✅ Worker: gig.alerts.sweep — DevOps
+- `packages/notifications/src/worker.ts` — real `gigAlertsSweep()` implementation
+- Queries open gigs from last 7 days; loads available talent; skill match (exact/substring); inserts `gig_match` notifications
+- pg-boss handler wired: `gig.alerts.sweep` calls `gigAlertsSweep()`
+
+### S3-10 ✅ Matching + messaging tests — Tester
+- `packages/matching/src/embed.test.ts` (17 tests): embedSkills 384-dim, determinism, unit norm, empty, order-invariant, trigram similarity; cosineSimilarity known values; computeMatchScore integer range, skill/availability/rating ordering, vector usage
+- `apps/web/src/server/__tests__/messaging-rbac.test.ts` (23 tests): unauth → 401; admin → 403; thread-not-found → 404; non-participant → 403; valid talent/business participant → resolves; Zod validation; "no contact before commitment" invariant
+
+### S3-11 ✅ Sprint 3 snapshot — Project Monitor (this entry)

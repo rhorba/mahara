@@ -157,6 +157,30 @@ Sprint 2: Gig marketplace — post, browse (public SSR), apply, accept/reject.
 
 ---
 
+## SESSION_END — 2026-06-09
+Sprint: 3 — **COMPLETE** (all tasks written; build + tests verified)
+
+Completed this session (S3-01 through S3-11):
+  - S3-01 ✅ DB migration 0002: vector columns 1536→384, HNSW indexes updated
+  - S3-02 ✅ Matching engine package: embed.ts (trigram FNV-1a), score.ts (weighted 0–100), queries.ts (top-talent two-phase)
+  - S3-03 ✅ Backend wiring: talent + gig embedding triggers (fire-and-forget), real match score at apply time
+  - S3-04 ✅ Message CRUD: sendMessage, getThreadMessages, markThreadRead, getMyThreads
+  - S3-05 ✅ Match score UI: MatchScoreBadge + TopTalentPanel; gig detail + proposal list updated
+  - S3-06 ✅ Messaging UI: 4 pages (talent + business thread list + message view) + MessageComposer
+  - S3-07 ✅ i18n: messaging namespace + matching gig keys (fr/ar/en)
+  - S3-08 ✅ Worker gig.alerts.sweep: real implementation (skill overlap → gig_match notifications)
+  - S3-10 ✅ Tests: 17 matching (determinism, norm, similarity, score ordering) + 23 messaging RBAC
+  - S3-11 ✅ Sprint 3 snapshot
+
+Verification gates (ALL PASS):
+  - `pnpm build` → 24 routes compiled, 0 TS errors ✅
+  - `pnpm test` → 124/124 passing (4 web + 1 matching + 2 core + 1 db suites) ✅
+
+Sprint 4 pending approval.
+Next: Payments & Escrow — fund on proposal acceptance, release on completion, refund on cancellation, dispute flow.
+
+---
+
 ## SESSION_END — 2026-06-08 (CI fix + push)
 Sprint: 0+1 — **CI GREEN. Pushed to GitHub.**
 

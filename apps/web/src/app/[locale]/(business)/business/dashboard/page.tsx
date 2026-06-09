@@ -46,10 +46,22 @@ export default async function BusinessDashboard() {
           {profile ? t("edit_title") : "Créer mon profil"}
         </Link>
         <Link
-          href="/talents"
+          href="/business/gigs"
           className="px-4 py-2 border border-mahara-green text-mahara-green rounded-lg text-sm font-medium hover:bg-mahara-green/5 transition-colors"
         >
-          Parcourir les talents
+          Mes missions
+        </Link>
+        <Link
+          href="/business/gigs/new"
+          className="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+        >
+          + Publier une mission
+        </Link>
+        <Link
+          href="/business/messages"
+          className="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+        >
+          Messagerie
         </Link>
       </div>
     </main>

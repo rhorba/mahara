@@ -1,4 +1,7 @@
+import { db, gigs, notifications, talentProfiles } from "@mahara/db";
+import type { SkillEntry } from "@mahara/core";
 import PgBoss from "pg-boss";
+import { and, eq, gte, isNotNull, ne } from "drizzle-orm";
 
 if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is required for the worker");
@@ -14,12 +17,54 @@ boss.on("error", (err) => {
   console.error("[worker] pg-boss error:", err);
 });
 
-// ─── Queue handlers (stubs — filled in Sprint 5) ──────────────────────────
+// ─── Queue handlers ────────────────────────────────────────────────────────
+
+async function gigAlertsSweep() {
+  // Find gigs opened in the last 7 days
+  const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const openGigs = await db.query.gigs.findMany({
+    where: and(eq(gigs.status, "open"), gte(gigs.createdAt, cutoff)),
+  });
+  if (openGigs.length === 0) return;
+
+  // Load all available talent with skills
+  const talent = await db.query.talentProfiles.findMany({
+    where: and(ne(talentProfiles.availability, "unavailable"), isNotNull(talentProfiles.skills)),
+  });
+
+  let notifCount = 0;
+  for (const gig of openGigs) {
+    const gigSkills = gig.skills.map((s) => s.toLowerCase());
+    for (const tp of talent) {
+      const talentSkills = ((tp.skills as SkillEntry[]) ?? []).map((s) =>
+        s.skill.toLowerCase(),
+      );
+      const hasMatch = gigSkills.some((gs) =>
+        talentSkills.some((ts) => ts.includes(gs) || gs.includes(ts)),
+      );
+      if (!hasMatch) continue;
+
+      // Insert notification (skip if already notified — unique constraint not enforced here,
+      // so we rely on weekly cadence being infrequent enough)
+      await db.insert(notifications).values({
+        id: crypto.randomUUID(),
+        userId: tp.userId,
+        type: "gig_match",
+        title: "Nouvelle mission correspondante",
+        body: `"${gig.title}" correspond à vos compétences.`,
+        linkUrl: `/gigs/${gig.id}`,
+      });
+      notifCount++;
+    }
+  }
+  console.log(`[worker] gig.alerts.sweep — ${notifCount} notifications created`);
+}
 
 async function registerQueues() {
   // Gig alert sweep: match new gigs to talent skill profiles weekly
   await boss.work("gig.alerts.sweep", { teamSize: 1, teamConcurrency: 1 }, async (job) => {
-    console.log("[worker] gig.alerts.sweep — no-op (Sprint 3+)", job.id);
+    console.log("[worker] gig.alerts.sweep started", job.id);
+    await gigAlertsSweep();
   });
 
   // Escrow sweep: check overdue escrows, prompt dispute resolution

@@ -25,7 +25,7 @@ export const gigs = pgTable(
     assignedTalentId: uuid("assigned_talent_id").references(() => talentProfiles.id, {
       onDelete: "set null",
     }),
-    requirementVector: vector("requirement_vector", { dimensions: 1536 }), // Sprint 3
+    requirementVector: vector("requirement_vector", { dimensions: 384 }), // 384-dim (all-MiniLM-L6-v2 compatible)
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   },

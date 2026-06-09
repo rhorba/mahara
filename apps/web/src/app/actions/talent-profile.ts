@@ -2,6 +2,7 @@
 
 import { withRole, withRoleNoInput } from "@/server/with-role";
 import { talentProfileSchema } from "@mahara/core";
+import { updateTalentEmbedding } from "@mahara/matching";
 import { talentProfiles } from "@mahara/db";
 import { eq } from "drizzle-orm";
 
@@ -27,6 +28,10 @@ export const upsertTalentProfile = withRole(
         })
         .where(eq(talentProfiles.userId, userId))
         .returning();
+      // Recompute embedding after skill change (non-blocking — best effort)
+      if (updated) {
+        updateTalentEmbedding(updated.id).catch(() => null);
+      }
       return updated;
     }
 
@@ -43,6 +48,9 @@ export const upsertTalentProfile = withRole(
         availability: input.availability,
       })
       .returning();
+    if (created) {
+      updateTalentEmbedding(created.id).catch(() => null);
+    }
     return created;
   },
 );
