@@ -35,8 +35,8 @@ export default async function LocaleLayout({ children, params }: Props) {
         >
           {locale === "ar" ? "انتقل إلى المحتوى الرئيسي" : "Aller au contenu principal"}
         </a>
-        <NavBar />
         <NextIntlClientProvider messages={messages}>
+          <NavBar />
           <div id="main">{children}</div>
         </NextIntlClientProvider>
       </body>
