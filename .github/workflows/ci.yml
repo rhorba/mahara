@@ -31,6 +31,7 @@ jobs:
       AUTH_SECRET: ci-test-secret-32-chars-minimum-ok
       NEXT_TELEMETRY_DISABLED: 1
       NODE_ENV: test
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout
