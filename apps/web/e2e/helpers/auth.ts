@@ -29,4 +29,6 @@ export async function loginAs(
   await page.waitForURL((url) => url.toString().includes(target), {
     timeout: 60000,
   });
+  // Ensure all CSS/JS resources are loaded so videos show styled pages
+  await page.waitForLoadState("networkidle");
 }
