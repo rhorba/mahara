@@ -1,0 +1,19 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "pnpm --filter web build",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "outputDirectory": "apps/web/.next",
+  "env": {
+    "NEXT_OUTPUT": ""
+  },
+  "crons": [
+    {
+      "path": "/api/cron/gig-alerts",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/escrow-sweep",
+      "schedule": "*/5 * * * *"
+    }
+  ]
+}

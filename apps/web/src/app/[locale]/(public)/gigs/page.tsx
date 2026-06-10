@@ -4,6 +4,8 @@ import type { Money } from "@mahara/core";
 import { formatMoney } from "@mahara/core";
 import { getTranslations } from "next-intl/server";
 
+export const revalidate = 60;
+
 type Props = {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{

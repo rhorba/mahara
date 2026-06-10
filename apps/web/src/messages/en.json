@@ -136,7 +136,9 @@
     "no_messages": "Start the conversation.",
     "you": "You",
     "view_gig": "View gig",
-    "unread": "unread"
+    "unread": "unread",
+    "kbd_hint": "Ctrl+Enter to send",
+    "compose_label": "Write a message"
   },
   "auth": {
     "login_title": "Log in",
@@ -324,6 +326,73 @@
       "review_requested": "Review requested",
       "verification_approved": "Skill verified",
       "gig_completed": "Gig completed"
+    }
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "verifications": "Verifications",
+      "escrow": "Escrow",
+      "disputes": "Disputes"
+    },
+    "dashboard": {
+      "title": "Administration",
+      "subtitle": "Platform overview",
+      "gmv": "Total GMV",
+      "active_gigs": "Active gigs",
+      "in_progress_gigs": "In progress",
+      "completed_gigs": "Completed",
+      "new_signups": "New signups (30d)",
+      "completion_rate": "Completion rate",
+      "disputed_escrows": "Open disputes",
+      "quick_actions": "Quick actions",
+      "goto_verifications": "Verification queue",
+      "goto_escrow": "Escrow health",
+      "goto_disputes": "Resolve disputes"
+    },
+    "verifications": {
+      "title": "Verification queue",
+      "subtitle": "Pending skill verification requests",
+      "empty": "No pending requests.",
+      "talent": "Talent",
+      "skill": "Skill",
+      "method": "Method",
+      "requested_at": "Requested",
+      "actions": "Actions",
+      "approve": "Approve",
+      "reject": "Reject",
+      "note_placeholder": "Admin note (optional)...",
+      "approving": "Approving...",
+      "rejecting": "Rejecting...",
+      "approved_ok": "Skill approved.",
+      "rejected_ok": "Request rejected."
+    },
+    "escrow": {
+      "title": "Escrow health",
+      "subtitle": "All escrows and their status",
+      "empty": "No escrows found.",
+      "gig": "Gig",
+      "business": "Business",
+      "talent": "Talent",
+      "gross": "Gross amount",
+      "status": "Status",
+      "funded_at": "Funded",
+      "released_at": "Released"
+    },
+    "disputes": {
+      "title": "Open disputes",
+      "subtitle": "Disputed escrows pending resolution",
+      "empty": "No open disputes.",
+      "gig": "Gig",
+      "business": "Business",
+      "talent": "Talent",
+      "amount": "Amount",
+      "opened_at": "Opened",
+      "resolve_release": "Release to talent",
+      "resolve_refund": "Refund business",
+      "releasing": "Releasing...",
+      "refunding": "Refunding...",
+      "resolved_ok": "Dispute resolved."
     }
   },
   "errors": {

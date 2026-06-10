@@ -223,3 +223,22 @@
 **Security review status**: Auth (S0-07) → Security Engineer designed. RBAC (S0-08) → Security Engineer. No escrow/PII touches this sprint.
 
 **Sprint 0 → Sprint 1 handoff**: Data model (talent profile, business profile, demo seed). DBA leads.
+
+## Sprint 7 KPI Snapshot — 2026-06-10
+
+| Metric | Value |
+|---|---|
+| Sprint | 7 (final) |
+| Tasks completed | 8/8 |
+| Routes (total) | 32 |
+| Tests passing | 222 |
+| Tests skipped | 4 (live DB RLS) |
+| TS errors | 0 |
+| Biome errors | 0 |
+| Security headers | 6 (X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, HSTS, CSP) |
+| Rate limit | 10 attempts/15min/IP on loginAction |
+| Public pages cached | 3 (gig browse 60s, gig detail 60s, talent profile 300s) |
+| New API routes | 3 (/api/health, /api/cron/gig-alerts, /api/cron/escrow-sweep) |
+| Docker healthchecks | 2 (web + worker) |
+| **DoD items** | **20/20 ✅** |
+| **v0.1 status** | **SHIPPED** |

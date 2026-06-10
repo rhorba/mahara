@@ -136,7 +136,9 @@
     "no_messages": "ابدأ المحادثة.",
     "you": "أنت",
     "view_gig": "عرض المهمة",
-    "unread": "غير مقروء"
+    "unread": "غير مقروء",
+    "kbd_hint": "Ctrl+Enter للإرسال",
+    "compose_label": "اكتب رسالة"
   },
   "auth": {
     "login_title": "تسجيل الدخول",
@@ -324,6 +326,73 @@
       "review_requested": "طلب تقييم",
       "verification_approved": "تم توثيق المهارة",
       "gig_completed": "اكتملت المهمة"
+    }
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "لوحة التحكم",
+      "verifications": "التوثيقات",
+      "escrow": "الضمان",
+      "disputes": "النزاعات"
+    },
+    "dashboard": {
+      "title": "الإدارة",
+      "subtitle": "نظرة عامة على المنصة",
+      "gmv": "إجمالي حجم المعاملات",
+      "active_gigs": "المهام النشطة",
+      "in_progress_gigs": "قيد التنفيذ",
+      "completed_gigs": "مكتملة",
+      "new_signups": "التسجيلات (30 يوماً)",
+      "completion_rate": "معدل الإنجاز",
+      "disputed_escrows": "نزاعات مفتوحة",
+      "quick_actions": "إجراءات سريعة",
+      "goto_verifications": "قائمة التوثيق",
+      "goto_escrow": "صحة الضمان",
+      "goto_disputes": "حل النزاعات"
+    },
+    "verifications": {
+      "title": "قائمة التوثيق",
+      "subtitle": "طلبات توثيق المهارات قيد الانتظار",
+      "empty": "لا توجد طلبات قيد الانتظار.",
+      "talent": "الموهبة",
+      "skill": "المهارة",
+      "method": "الطريقة",
+      "requested_at": "تاريخ الطلب",
+      "actions": "الإجراءات",
+      "approve": "قبول",
+      "reject": "رفض",
+      "note_placeholder": "ملاحظة المشرف (اختياري)...",
+      "approving": "جارٍ القبول...",
+      "rejecting": "جارٍ الرفض...",
+      "approved_ok": "تم قبول المهارة.",
+      "rejected_ok": "تم رفض الطلب."
+    },
+    "escrow": {
+      "title": "صحة الضمان",
+      "subtitle": "جميع حسابات الضمان وحالتها",
+      "empty": "لا توجد حسابات ضمان.",
+      "gig": "المهمة",
+      "business": "الشركة",
+      "talent": "الموهبة",
+      "gross": "المبلغ الإجمالي",
+      "status": "الحالة",
+      "funded_at": "تاريخ التمويل",
+      "released_at": "تاريخ الصرف"
+    },
+    "disputes": {
+      "title": "النزاعات الجارية",
+      "subtitle": "النزاعات المفتوحة للحل",
+      "empty": "لا توجد نزاعات جارية.",
+      "gig": "المهمة",
+      "business": "الشركة",
+      "talent": "الموهبة",
+      "amount": "المبلغ",
+      "opened_at": "تاريخ الفتح",
+      "resolve_release": "الصرف للموهبة",
+      "resolve_refund": "استرداد للشركة",
+      "releasing": "جارٍ الصرف...",
+      "refunding": "جارٍ الاسترداد...",
+      "resolved_ok": "تم حل النزاع."
     }
   },
   "errors": {

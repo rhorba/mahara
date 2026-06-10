@@ -1,6 +1,7 @@
 "use server";
 
 import { signIn, signOut } from "@/lib/auth";
+import { checkRateLimit } from "@/server/rate-limit";
 import { signupSchema } from "@mahara/core";
 import { db, users } from "@mahara/db";
 import { sendWelcomeEmail } from "@mahara/notifications/email";
@@ -8,6 +9,7 @@ import * as argon2 from "argon2";
 import { eq } from "drizzle-orm";
 import { AuthError } from "next-auth";
 import { getLocale } from "next-intl/server";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 type ActionState = { error?: string } | null;
@@ -76,6 +78,17 @@ export async function signupAction(_prev: ActionState, formData: FormData): Prom
 }
 
 export async function loginAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const headerStore = await headers();
+  const ip =
+    headerStore.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    headerStore.get("x-real-ip") ??
+    "unknown";
+
+  const { allowed } = checkRateLimit(ip);
+  if (!allowed) {
+    return { error: "Trop de tentatives. Réessayez dans 15 minutes." };
+  }
+
   const locale = await getLocale();
 
   try {

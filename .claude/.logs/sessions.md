@@ -157,6 +157,49 @@ Sprint 2: Gig marketplace — post, browse (public SSR), apply, accept/reject.
 
 ---
 
+## SESSION_END — 2026-06-10
+Sprint: 6 — **COMPLETE** (all tasks written; build + tests verified)
+
+Completed this session (S6-01 through S6-11):
+  - S6-01 ✅ Admin server actions: getAdminKPIs, getEscrowHealth, getDisputeQueue
+  - S6-02 ✅ Admin layout with sidebar + mobile tab bar (role guard, RTL-safe)
+  - S6-03 ✅ Admin dashboard: 7 KPI cards + quick-action links
+  - S6-04 ✅ Admin verification queue: VerificationQueueTable (inline approve/reject)
+  - S6-05 ✅ Admin escrow health: full escrow table with status badges
+  - S6-06 ✅ Admin dispute queue: DisputeResolutionTable (release/refund)
+  - S6-07 ✅ i18n admin namespace (FR/AR/EN); messaging.kbd_hint + compose_label
+  - S6-08 ✅ RTL audit — zero violations found; codebase was already clean
+  - S6-09 ✅ a11y: skip link, MessageComposer aria-label, i18n keyboard hint
+  - S6-10 ✅ Admin RBAC tests (19 tests): all admin actions gate talent/business/unauth
+  - S6-11 ✅ Sprint 6 snapshot
+
+New files (Sprint 6):
+  - apps/web/src/app/actions/admin.ts
+  - apps/web/src/app/[locale]/(admin)/layout.tsx
+  - apps/web/src/app/[locale]/(admin)/admin/dashboard/page.tsx (rebuilt)
+  - apps/web/src/app/[locale]/(admin)/admin/verifications/page.tsx
+  - apps/web/src/app/[locale]/(admin)/admin/escrow/page.tsx
+  - apps/web/src/app/[locale]/(admin)/admin/disputes/page.tsx
+  - apps/web/src/components/admin/verification-queue-table.tsx
+  - apps/web/src/components/admin/dispute-resolution-table.tsx
+  - apps/web/src/__tests__/admin-rbac.test.ts
+  - .claude/sprint-backlog/sprint-6.md
+
+Modified files:
+  - apps/web/src/messages/fr.json, ar.json, en.json (admin namespace + messaging keys)
+  - apps/web/src/app/[locale]/layout.tsx (skip link + div#main wrapper)
+  - apps/web/src/components/messaging/message-composer.tsx (aria-label + i18n kbd_hint)
+
+Verification gates (ALL PASS):
+  - `pnpm build` → 29 routes compiled, 0 TS errors ✅
+  - `pnpm test` (web) → 155/155 passing (8 suites) ✅
+  - `pnpm lint` → 0 errors across all packages ✅
+
+Sprint 7 pending approval.
+Next: Security hardening + performance + deploy → v0.1 ship.
+
+---
+
 ## SESSION_END — 2026-06-09
 Sprint: 3 — **COMPLETE** (all tasks written; build + tests verified)
 
@@ -203,3 +246,36 @@ Verification gates (ALL PASS):
 
 Sprint 2 deferred: approved by user, to begin in next session.
 Next session: Start Sprint 2 — Gig marketplace (post, browse SSR, apply, accept/reject).
+
+---
+
+## SESSION_END — 2026-06-10 (Sprint 7 — v0.1 SHIPPED)
+Sprint: 7 — **COMPLETE. Mahara v0.1 is shipped.**
+
+Completed this session (Sprint 7 — Security hardening + performance + deploy):
+  - S7-01 ✅ Security headers + CSP in next.config.ts (X-Frame-Options, HSTS, CSP, Permissions-Policy)
+  - S7-02 ✅ Login rate limiting (in-memory 10/15min/IP, IP from x-forwarded-for header)
+  - S7-03 ✅ RBAC + PII audit (100% withRole coverage, no PII in errors/logs)
+  - S7-04 ✅ Public gig page caching (revalidate=60 on gig browse+detail, 300 on talent profile)
+  - S7-05 ✅ Health check API (/api/health, DB ping, 503 on failure)
+  - S7-06 ✅ Docker + Vercel deployment config (HEALTHCHECK in compose, vercel.json, cron API routes, sweeps.ts extraction)
+  - S7-07 ✅ Final build + test + lint — ALL PASS
+  - S7-08 ✅ v0.1 ship declaration (this entry)
+
+Verification gates (ALL PASS):
+  - `pnpm lint` → 0 errors ✅
+  - `pnpm build` → 32 routes compiled, 0 TS errors ✅
+  - `pnpm test` → 222 passing, 4 skipped (live DB RLS) ✅
+  - DoD §12 checklist: 20/20 items ✅
+
+Sprint summary (all 8 sprints):
+  - Sprint 0: scaffold, auth, RBAC, RLS, Docker, CI
+  - Sprint 1: full schema (11 tables, pgvector), talent/business profiles, demo seed
+  - Sprint 2: gig marketplace (post/browse SSR/apply/accept-reject), atomic acceptProposal
+  - Sprint 3: AI matching engine (FNV-1a trigram embeddings, weighted scoring), messaging CRUD + UI
+  - Sprint 4: EscrowStateMachine (6 transitions), fee arithmetic, DevGateway, escrowSweep worker
+  - Sprint 5: reviews, skill verification, NotificationBell, Resend email, trust system
+  - Sprint 6: admin dashboard (KPIs/verifications/escrow/disputes), RTL audit clean, a11y, 155 tests
+  - Sprint 7: security headers, rate limiting, caching, health check, Docker+Vercel config, 222 tests
+
+Total routes: 32 | Total tests: 222 | TS errors: 0 | Biome errors: 0

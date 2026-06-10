@@ -45,6 +45,7 @@ export function MessageComposer({ threadId }: Props) {
           rows={2}
           maxLength={4000}
           placeholder={t("send_placeholder")}
+          aria-label={t("compose_label")}
           onKeyDown={handleKeyDown}
           className="flex-1 resize-none rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-mahara-green/30 focus:border-mahara-green transition"
           disabled={isPending}
@@ -57,7 +58,7 @@ export function MessageComposer({ threadId }: Props) {
           {isPending ? t("sending") : t("send_btn")}
         </button>
       </div>
-      <p className="text-xs text-gray-400 mt-1.5">Ctrl+Entrée pour envoyer</p>
+      <p className="text-xs text-gray-400 mt-1.5">{t("kbd_hint")}</p>
     </form>
   );
 }

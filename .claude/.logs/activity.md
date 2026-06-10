@@ -402,3 +402,107 @@
 - **136/136 tests passing** across 7 test suites | TS errors: 0 | Biome errors: 0
 
 ### S5-11 ✅ Sprint 5 snapshot — Project Monitor (this entry)
+
+## 2026-06-10 — Session 7 (Sprint 6)
+
+### S6-01 ✅ Admin server actions — Backend Dev
+- `apps/web/src/app/actions/admin.ts`
+- `getAdminKPIs` (admin): GMV sum (released escrows), active/in-progress/completed gig counts, new signups last 30d, completion rate, disputed escrow count
+- `getEscrowHealth` (admin): all escrows with gig + business + talent relations
+- `getDisputeQueue` (admin): disputed escrows with full relations, ordered by createdAt asc
+
+### S6-02 ✅ Admin sidebar layout — Frontend Dev
+- `apps/web/src/app/[locale]/(admin)/layout.tsx`
+- Role guard: redirects unauthenticated → /auth/login, non-admin → /
+- Desktop sidebar: Dashboard / Verifications / Escrow / Disputes nav links
+- Mobile: horizontal scrollable tab bar pinned below navbar
+- RTL-safe: `border-e` (border-inline-end), `text-start`
+
+### S6-03 ✅ Admin dashboard KPIs page — Frontend Dev
+- `apps/web/src/app/[locale]/(admin)/admin/dashboard/page.tsx` rebuilt
+- 7 KPI cards: GMV, Active Gigs, In Progress, Completed, New Signups 30d, Completion Rate, Disputed (red alert when > 0)
+- Quick-action links to verification queue, escrow health, dispute queue
+
+### S6-04 ✅ Admin verification queue page — Frontend Dev
+- `apps/web/src/app/[locale]/(admin)/admin/verifications/page.tsx`
+- `apps/web/src/components/admin/verification-queue-table.tsx` — client component
+- Inline approve/reject with admin note field; useTransition + router.refresh()
+
+### S6-05 ✅ Admin escrow health page — Frontend Dev
+- `apps/web/src/app/[locale]/(admin)/admin/escrow/page.tsx`
+- Full escrow table: gig title, business, talent, gross amount (MAD), status badge (color-coded), funded/released dates
+
+### S6-06 ✅ Admin dispute queue page — Frontend Dev
+- `apps/web/src/app/[locale]/(admin)/admin/disputes/page.tsx`
+- `apps/web/src/components/admin/dispute-resolution-table.tsx` — client component
+- Disputed escrows with Release → talent / Refund → business resolve buttons; calls `resolveDispute` server action
+
+### S6-07 ✅ i18n admin namespace (FR/AR/EN) — Content Editor
+- `admin` namespace added to fr.json, ar.json, en.json
+- Covers: nav labels, KPI labels, verification queue UI, escrow health table headers, dispute queue + resolution labels
+- Also added `messaging.kbd_hint` + `messaging.compose_label` keys (3 locales)
+
+### S6-08 ✅ RTL audit — Frontend Dev
+- Scanned all TSX for directional hardcodes (`ml-`, `mr-`, `pl-`, `pr-`, `text-left`, `text-right`)
+- Result: zero violations — codebase was already using symmetric props (`px-`, `gap-`) and logical props (`text-start`, `border-e`, `-end-`)
+- Admin layout uses `border-e` (border-inline-end) correctly for LTR sidebar separator
+
+### S6-09 ✅ a11y pass — Frontend Dev
+- Added skip-to-main link in locale layout (`sr-only focus:not-sr-only`) with bilingual text (FR/AR)
+- Fixed `MessageComposer`: added `aria-label={t("compose_label")}` on textarea; replaced hardcoded FR keyboard hint with `t("kbd_hint")`
+- Verified: all SVG icons have `aria-hidden="true"`; all icon-only buttons have `aria-label`; `*:focus-visible` ring in globals.css covers all interactive elements
+
+### S6-10 ✅ Admin RBAC tests — Tester
+- `apps/web/src/__tests__/admin-rbac.test.ts` (19 tests)
+- getAdminKPIs, getEscrowHealth, getDisputeQueue: unauth→401, talent→403, business→403
+- resolveDispute: unauth→401, talent→403, business→403
+- approveSkillVerification: unauth→401, talent→403, business→403
+- rejectSkillVerification: unauth→401, talent→403, business→403
+- getAdminKPIs admin success: reaches DB without auth error
+- **155/155 tests passing** across 8 test suites | TS errors: 0 | Biome errors: 0
+
+### S6-11 ✅ Sprint 6 snapshot — Project Monitor (this entry)
+
+## 2026-06-10 — Session 7 (Sprint 7)
+
+### S7-01 ✅ Security headers + CSP — Security Engineer
+- `apps/web/next.config.ts`: added `securityHeaders` array + `headers()` async function
+- X-Frame-Options DENY, X-Content-Type-Options nosniff, Referrer-Policy strict-origin-when-cross-origin
+- Permissions-Policy: camera/mic/geo off, payment=(self)
+- HSTS (prod only): max-age=63072000; includeSubDomains; preload
+- Partial CSP: default-src 'self'; blocks object-src, base-uri, form-action; frame-ancestors 'none'
+- `allowedOrigins` for server actions derived from `NEXT_PUBLIC_APP_URL` env var
+
+### S7-02 ✅ Login rate limiting — Security Engineer
+- `apps/web/src/server/rate-limit.ts`: in-memory Map-based limiter, 10 attempts/15min/IP, 30min cleanup
+- `apps/web/src/app/actions/auth.ts`: `loginAction` now reads IP from x-forwarded-for/x-real-ip headers, returns 429-style error if rate limit exceeded
+
+### S7-03 ✅ RBAC + PII audit — Security Engineer
+- All 10 protected action files confirmed to use `withRole` — 100% coverage
+- No PII in error payloads; no console.log leaking PII
+- `formData.get("role")` in signupAction immediately validated by Zod against `'talent' | 'business'` — admin cannot be self-assigned
+
+### S7-04 ✅ Public gig page caching — Frontend Dev
+- `apps/web/src/app/[locale]/(public)/gigs/page.tsx`: `export const revalidate = 60`
+- `apps/web/src/app/[locale]/(public)/gigs/[id]/page.tsx`: `export const revalidate = 60`
+- `apps/web/src/app/[locale]/(public)/talent/[id]/page.tsx`: `export const revalidate = 300`
+
+### S7-05 ✅ Health check API — Backend Dev
+- `apps/web/src/app/api/health/route.ts`: GET /api/health — pings DB with `SELECT 1`, returns `{ status: "ok", db: "ok", ts: Date.now() }` or 503
+
+### S7-06 ✅ Docker + Vercel deployment config — DevOps
+- `docker-compose.yml`: added HEALTHCHECK to web (wget /api/health, 30s/10s/3 retries/40s start) and worker (pgrep node, 30s/5s/3 retries/20s start)
+- `vercel.json`: buildCommand, installCommand, outputDirectory for monorepo; Vercel Cron jobs for /api/cron/gig-alerts (daily 08:00) and /api/cron/escrow-sweep (every 5min)
+- `apps/web/src/app/api/cron/gig-alerts/route.ts` + `escrow-sweep/route.ts`: CRON_SECRET Bearer auth guard, call exported sweep functions
+- `packages/notifications/src/sweeps.ts`: extracted gigAlertsSweep, escrowSweep, emailDigestSweep — exported for both worker.ts and cron routes
+- `packages/notifications/package.json`: added `drizzle-orm: ^0.38.3` dependency + `./sweeps` export entry
+
+### S7-07 ✅ Final build + test + lint verification — Tester
+- `pnpm lint` → 0 errors (88 web files + all package files clean) ✅
+- `pnpm test` → 222 passing (155 web + 24 core + 17 matching + 26 payments), 4 skipped (live DB) ✅
+- `pnpm build` → 32 routes compiled, 0 TS errors ✅
+- DoD §12 checklist: **20/20 items complete** ✅
+
+### S7-08 ✅ v0.1 SHIP — Project Monitor
+- Sprint 7 complete: 8/8 tasks done
+- All sprints 0–7 complete — **Mahara v0.1 is SHIPPED**

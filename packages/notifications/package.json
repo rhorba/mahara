@@ -7,7 +7,8 @@
     ".": "./src/index.ts",
     "./queue": "./src/queue.ts",
     "./email": "./src/email.ts",
-    "./inapp": "./src/inapp.ts"
+    "./inapp": "./src/inapp.ts",
+    "./sweeps": "./src/sweeps.ts"
   },
   "scripts": {
     "worker": "tsx src/worker.ts",
@@ -17,6 +18,7 @@
   "dependencies": {
     "@mahara/core": "workspace:*",
     "@mahara/db": "workspace:*",
+    "drizzle-orm": "^0.38.3",
     "pg-boss": "^10.1.6",
     "resend": "^4.0.1"
   },

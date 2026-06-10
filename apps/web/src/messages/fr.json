@@ -136,7 +136,9 @@
     "no_messages": "Démarrez la conversation.",
     "you": "Vous",
     "view_gig": "Voir la mission",
-    "unread": "non lu(s)"
+    "unread": "non lu(s)",
+    "kbd_hint": "Ctrl+Entrée pour envoyer",
+    "compose_label": "Rédiger un message"
   },
   "auth": {
     "login_title": "Connexion",
@@ -324,6 +326,73 @@
       "review_requested": "Avis demandé",
       "verification_approved": "Compétence vérifiée",
       "gig_completed": "Mission terminée"
+    }
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "verifications": "Vérifications",
+      "escrow": "Séquestre",
+      "disputes": "Litiges"
+    },
+    "dashboard": {
+      "title": "Administration",
+      "subtitle": "Vue d'ensemble de la plateforme",
+      "gmv": "Volume total (GMV)",
+      "active_gigs": "Missions actives",
+      "in_progress_gigs": "En cours",
+      "completed_gigs": "Terminées",
+      "new_signups": "Inscriptions (30j)",
+      "completion_rate": "Taux de réalisation",
+      "disputed_escrows": "Litiges ouverts",
+      "quick_actions": "Actions rapides",
+      "goto_verifications": "File de vérification",
+      "goto_escrow": "Santé du séquestre",
+      "goto_disputes": "Résoudre les litiges"
+    },
+    "verifications": {
+      "title": "File de vérification",
+      "subtitle": "Demandes de vérification de compétences en attente",
+      "empty": "Aucune demande en attente.",
+      "talent": "Talent",
+      "skill": "Compétence",
+      "method": "Méthode",
+      "requested_at": "Demandé le",
+      "actions": "Actions",
+      "approve": "Approuver",
+      "reject": "Refuser",
+      "note_placeholder": "Note admin (optionnel)...",
+      "approving": "Approbation...",
+      "rejecting": "Refus...",
+      "approved_ok": "Compétence approuvée.",
+      "rejected_ok": "Demande refusée."
+    },
+    "escrow": {
+      "title": "Santé du séquestre",
+      "subtitle": "Tous les séquestres et leur état",
+      "empty": "Aucun séquestre.",
+      "gig": "Mission",
+      "business": "Entreprise",
+      "talent": "Talent",
+      "gross": "Montant brut",
+      "status": "Statut",
+      "funded_at": "Financé le",
+      "released_at": "Libéré le"
+    },
+    "disputes": {
+      "title": "Litiges en cours",
+      "subtitle": "Litiges ouverts à résoudre",
+      "empty": "Aucun litige en cours.",
+      "gig": "Mission",
+      "business": "Entreprise",
+      "talent": "Talent",
+      "amount": "Montant",
+      "opened_at": "Ouvert le",
+      "resolve_release": "Libérer vers le talent",
+      "resolve_refund": "Rembourser l'entreprise",
+      "releasing": "Libération...",
+      "refunding": "Remboursement...",
+      "resolved_ok": "Litige résolu."
     }
   },
   "errors": {

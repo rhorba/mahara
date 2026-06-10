@@ -4,6 +4,8 @@ import { ReviewForm } from "@/components/reviews/review-form";
 import { Link } from "@/i18n/navigation";
 import { auth } from "@/lib/auth";
 import { getPublicGigDetail } from "@/lib/gig-queries";
+
+export const revalidate = 60;
 import type { Money } from "@mahara/core";
 import { formatMoney } from "@mahara/core";
 import { db, escrows, proposals, reviews, talentProfiles } from "@mahara/db";
