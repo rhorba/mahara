@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Explicit content sources. Tailwind v4 auto-detection does not reliably find
+   the app + component templates in this monorepo layout (the CSS entry lives in
+   src/styles/), so without these the build emits theme/preflight but zero
+   utility classes — every page renders as unstyled HTML. */
+@source "../app/**/*.{ts,tsx}";
+@source "../components/**/*.{ts,tsx}";
+
 @theme {
   /* Mahara design tokens — §9 */
   --color-mahara-green: #1b4332;

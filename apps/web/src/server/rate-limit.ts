@@ -5,11 +5,19 @@
 const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const MAX_ATTEMPTS = 10;
 
+// Opt-in escape hatch for E2E runs. Behind a real proxy each client has its own
+// x-forwarded-for, so the limiter works per-IP; but local/E2E traffic all
+// resolves to a single "unknown" bucket and would lock the whole suite out
+// after 10 logins. Defaults OFF — production stays rate-limited.
+const DISABLED = process.env.DISABLE_AUTH_RATE_LIMIT === "1";
+
 type Entry = { count: number; resetAt: number };
 
 const store = new Map<string, Entry>();
 
 export function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
+  if (DISABLED) return { allowed: true, remaining: MAX_ATTEMPTS };
+
   const now = Date.now();
   const entry = store.get(ip);
 

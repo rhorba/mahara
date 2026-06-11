@@ -29,6 +29,10 @@ export async function loginAs(
   await page.waitForURL((url) => url.toString().includes(target), {
     timeout: 60000,
   });
-  // Ensure all CSS/JS resources are loaded so videos show styled pages
-  await page.waitForLoadState("networkidle");
+  // Wait for the dashboard to finish loading. We use "load" rather than
+  // "networkidle" because Next.js prefetches Link targets in production, and a
+  // lingering prefetch keeps the network busy indefinitely. The stylesheet is a
+  // <link> in the initial server-rendered HTML, so the page is fully styled at
+  // "load" — no need to wait for network idle.
+  await page.waitForLoadState("load");
 }
