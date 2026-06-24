@@ -56,7 +56,7 @@ test.describe("Talent — Dashboard", () => {
     const proposals = page.locator("[class*='rounded']").filter({ has: page.locator("h2, h3") });
     const emptyState = page.locator("text=/aucune|no proposals|candidature/i");
     const hasContent = (await proposals.count()) > 0 || (await emptyState.count()) > 0;
-    // At minimum, the page renders something useful
+    expect(hasContent).toBe(true);
     await expect(page.locator("main")).toBeVisible();
   });
 

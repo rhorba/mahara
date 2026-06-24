@@ -98,12 +98,7 @@ test.describe("Public pages", () => {
   });
 
   test("public talent profile page loads", async ({ page }) => {
-    // Navigate to any talent profile
-    await page.goto("/fr/gigs");
-    // Look for a talent link or navigate directly
     await page.goto("/fr/talent/");
-    // If 404, that's OK - let's try from a gig
-    const url = page.url();
-    expect(url).toContain("localhost");
+    await expect(page.locator("main")).toBeVisible();
   });
 });
